@@ -6,44 +6,46 @@
 
 ---
 
-## Soluciones
+## Soluciones (19)
 
-| Módulo | Categoría | Qué resuelve |
-|---|---|---|
-| **SkyLab Nexus** | Ingeniería de Datos | Lakehouse administrado, conectores y pipelines ETL/ELT |
-| **SkyLab Insight** | Ingeniería de Datos | BI en tiempo real y consultas en lenguaje natural (Text-to-SQL) |
-| **SkyLab Agents** | IA Generativa | Agentes de atención al cliente 24/7 (WhatsApp, web, Instagram) |
-| **SkyLab DocAI** | IA Generativa | Extracción inteligente de facturas, contratos y formularios |
-| **SkyLab Flow** | IA Generativa | Automatización de procesos con pasos de IA |
-| **SkyLab Forecast** | Analítica Predictiva | Pronóstico de demanda, ventas e inventario |
-| **SkyLab Pulse** | Analítica Predictiva | Segmentación, churn, CLV y recomendaciones |
-| **SkyLab Shield** | Analítica Predictiva | Detección de fraude y anomalías |
+| Familia | Soluciones |
+|---|---|
+| **Datos y BI** | Nexus (lakehouse y pipelines) · Insight (BI y preguntas en español) · Forge (modelos a medida y MLOps) |
+| **IA Generativa** | Agents (atención 24/7) · Copilot (asistente interno con RAG) · DocAI (lectura de documentos) · Studio (contenido de marketing) |
+| **Analítica Predictiva** | Forecast (demanda) · Pulse (clientes y churn) · Price (precios dinámicos) · Leads (puntaje comercial) · Shield (fraude y anomalías) |
+| **Visión y Voz** | Vision (visión por computador) · Voice (agentes de voz) · Meet (actas y tareas de reuniones) |
+| **Operaciones** | Flow (automatización) · Route (logística) · Sentinel (mantenimiento predictivo) · Talent (RR. HH.) |
 
 ### Planes
-- **Despegue** — microempresas (desde USD 49/mes)
-- **Órbita** — PyMEs (desde USD 390/mes)
-- **Galaxia** — grandes empresas (a medida)
+- **Esencial** — microempresas (desde USD 49/mes)
+- **Crecimiento** — PyMEs (desde USD 390/mes)
+- **Corporativo** — grandes empresas (a medida)
 
 ## Sitio web
 
-Sitio estático (HTML + CSS + JavaScript, sin dependencias ni build) con identidad visual **"Ascenso"**:
-la página es un despegue. Empieza de día en la superficie y, al hacer scroll, asciende por la atmósfera
-hasta la órbita geoestacionaria.
+Sitio estático (HTML + CSS + JavaScript, sin build) con fondo negro, paleta monocromática y el azul del logo.
+Una escena 3D fija (three.js) acompaña el scroll: una sola nube de partículas cambia de forma en cada capítulo.
 
-- Intro con cuenta regresiva de lanzamiento
-- Altímetro fijo que marca la altitud real (km) y la capa atmosférica según el scroll
-- Planeta de datos 3D interactivo (canvas) con los 8 módulos como satélites en órbita
-- Selector de módulos con un visual animado distinto para cada uno
-- Línea de Kármán (100 km) como transición del cielo al espacio
-- "Elige tu órbita": LEO / MEO / GEO para micro, PyME y gran empresa
-- Secuencia de lanzamiento fijada al scroll: un cohete recorre las 5 etapas del método
-- Centro de control con demos: agente de IA, pronóstico y pipeline de datos
-- Calculadora de ahorro con tablero tipo aeropuerto (split-flap)
-- Precios como pases de abordar
-- Insignia de misión del CEO
-- Formulario que lanza un cohete al enviarse
-- Footer con el horizonte de la Tierra vista desde la órbita
-- Responsive y compatible con `prefers-reduced-motion`
+| Capítulo | Figura 3D |
+|---|---|
+| 00 · Inicio | Red neuronal con señales viajando entre capas |
+| 01 · Tus datos | 14 fuentes de datos dispersas |
+| 02 · La base | Lakehouse por capas (bronce, plata, oro) |
+| 03 · Soluciones de IA | Espacio de embeddings: una nube por familia (19 tarjetas con filtro y detalle) |
+| 04 · Modelos de lenguaje | Capa de atención de un transformer (Claude, RAG, agentes) |
+| 05 · Demo | Agente de WhatsApp, pronóstico y pipeline funcionando en el navegador |
+| 06 · Industrias | Métricas en barras 3D |
+| 07 · Método | Superficie de pérdida y descenso del gradiente con los 5 pasos |
+| 08 · Precios | Calculadora de ahorro y planes |
+| 09 · Nosotros | Carta del fundador y preguntas frecuentes |
+| 10 · Contacto | Formulario de demo |
+
+Responsive, compatible con `prefers-reduced-motion` y con fondo de respaldo si el navegador no tiene WebGL.
+
+### Logo
+
+PNG listos para usar en `assets/img/png/`: `skylab-logo-color.png` (fondo oscuro), `skylab-logo-dark.png` (fondo claro),
+`skylab-logo-white.png`, `skylab-mark.png`, `skylab-mark-dark.png` y `skylab-icon.png` (1024 px).
 
 ### Estructura
 
@@ -52,8 +54,10 @@ hasta la órbita geoestacionaria.
 ├── index.html
 ├── assets/
 │   ├── css/styles.css
-│   ├── js/main.js
-│   └── img/favicon.svg
+│   ├── js/main.js        # interfaz, demos, catálogo de soluciones
+│   ├── js/scene.js       # escena 3D (módulo ES)
+│   ├── vendor/three.module.min.js
+│   └── img/              # logos SVG/PNG, favicon, foto del CEO
 └── .github/workflows/pages.yml   # despliegue automático a GitHub Pages
 ```
 
@@ -72,7 +76,6 @@ Actívalo en *Settings → Pages → Build and deployment → Source: GitHub Act
 
 ### Personalización pendiente
 
-- **Foto del CEO:** agrega `assets/img/ceo.jpg` y reemplaza el bloque de iniciales en la sección *Nosotros* de `index.html`.
 - **Formulario de contacto:** hoy simula el envío. Conéctalo a un backend o a un servicio como Formspree (ver `TODO` en `assets/js/main.js`).
 - **Métricas:** las cifras del sitio son objetivos / escenarios de referencia; actualízalas con resultados reales de clientes.
 

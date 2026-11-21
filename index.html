@@ -3,196 +3,163 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-  <title>SKYLAB</title>
-  <meta name="description" content="SKYLAB es una plataforma de Inteligencia Artificial e Ingeniería de Datos para microempresas, PyMEs y grandes empresas. Conecta tus datos, predice la demanda y automatiza procesos." />
-  <meta name="theme-color" content="#FFFFFF" />
+  <title>SKYLAB · IA e Ingeniería de Datos</title>
+  <meta name="description" content="SKYLAB es una plataforma de Inteligencia Artificial e Ingeniería de Datos para microempresas, PyMEs y grandes empresas. 19 soluciones de IA sobre una sola base de datos." />
+  <meta name="theme-color" content="#000000" />
   <meta property="og:title" content="SKYLAB · Inteligencia Artificial e Ingeniería de Datos" />
-  <meta property="og:description" content="Convierte tus datos en decisiones. Plataforma de IA y datos para empresas de todos los tamaños." />
+  <meta property="og:description" content="Convierte tus datos en decisiones. 19 soluciones de IA para empresas de todos los tamaños." />
   <meta property="og:type" content="website" />
+  <meta property="og:image" content="assets/img/png/skylab-logo-color.png" />
   <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml" />
+  <link rel="icon" href="assets/img/favicon-512.png" type="image/png" sizes="512x512" />
+  <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=Geist+Mono:wght@400;500&family=Mrs+Saint+Delafield&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&family=Space+Grotesk:wght@500;600;700&family=Mrs+Saint+Delafield&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="assets/css/styles.css" />
 </head>
 <body>
 
   <svg width="0" height="0" style="position:absolute" aria-hidden="true">
-    <linearGradient id="skyGrad" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#2B4BFF"/><stop offset="1" stop-color="#00A6FF"/></linearGradient>
+    <defs>
+      <linearGradient id="skyGrad" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#2B4BFF"/><stop offset="1" stop-color="#00A6FF"/></linearGradient>
+    </defs>
     <symbol id="mark" viewBox="0 0 40 40">
-      <path class="mark-sky" d="M4 20 A16 16 0 0 1 36 20 Z" fill="url(#skyGrad)"/>
-      <rect class="mark-l1" x="4.4" y="22.5" width="31.2" height="3"/>
-      <rect class="mark-l2" x="6.8" y="28" width="26.4" height="3"/>
-      <rect class="mark-l3" x="13.2" y="33.5" width="13.6" height="3"/>
+      <path d="M4 20 A16 16 0 0 1 36 20 Z" fill="url(#skyGrad)"/>
+      <rect x="4.4" y="22.5" width="31.2" height="3" fill="currentColor"/>
+      <rect x="6.8" y="28" width="26.4" height="3" fill="currentColor" opacity=".8"/>
+      <rect x="13.2" y="33.5" width="13.6" height="3" fill="currentColor" opacity=".6"/>
     </symbol>
   </svg>
 
+  <!-- Escena 3D fija detrás de todo el contenido -->
+  <div class="stage" aria-hidden="true">
+    <canvas id="scene"></canvas>
+    <div class="stage__labels" id="labels"></div>
+    <div class="stage__fade"></div>
+  </div>
+
   <header class="nav" id="nav">
-    <div class="wrap nav__in">
-      <a href="#inicio" class="brand" aria-label="SKYLAB, ir al inicio">
-        <svg class="brand__mark" viewBox="0 0 40 40" aria-hidden="true"><path class="mark-sky" d="M4 20 A16 16 0 0 1 36 20 Z"/><rect class="mark-l1" x="4.4" y="22.5" width="31.2" height="3"/><rect class="mark-l2" x="6.8" y="28" width="26.4" height="3"/><rect class="mark-l3" x="13.2" y="33.5" width="13.6" height="3"/></svg>
-        <span class="brand__word">SKYLAB</span>
-      </a>
-      <nav class="nav__links" id="navLinks" aria-label="Principal">
-        <a href="#plataforma">Plataforma</a>
-        <a href="#empresas">Empresas</a>
-        <a href="#metodo">Método</a>
-        <a href="#demo">Demo</a>
-        <a href="#precios">Precios</a>
-        <a href="#nosotros">Nosotros</a>
-      </nav>
-      <a href="#contacto" class="btn btn--dark btn--sm nav__cta">Agendar demo</a>
-      <button class="burger" id="burger" type="button" aria-label="Abrir menú" aria-expanded="false" aria-controls="navLinks"><span></span><span></span></button>
+    <a href="#inicio" class="brand" aria-label="SKYLAB, ir al inicio">
+      <svg class="brand__mark" aria-hidden="true"><use href="#mark"/></svg>
+      <span class="brand__word">SKYLAB</span>
+    </a>
+    <nav class="dots" id="dots" aria-label="Capítulos"></nav>
+    <div class="nav__right">
+      <a href="#contacto" class="btn btn--ghost btn--sm nav__cta">Agendar demo <span aria-hidden="true">→</span></a>
+      <button class="burger" id="burger" type="button" aria-label="Abrir menú" aria-expanded="false" aria-controls="menu"><span></span><span></span></button>
     </div>
   </header>
 
+  <div class="menu" id="menu" aria-hidden="true">
+    <nav class="menu__in" aria-label="Principal">
+      <a href="#inicio"><i>00</i>Inicio</a>
+      <a href="#datos"><i>01</i>Tus datos</a>
+      <a href="#base"><i>02</i>La base</a>
+      <a href="#soluciones"><i>03</i>Soluciones de IA</a>
+      <a href="#confianza"><i>04</i>Modelos de lenguaje</a>
+      <a href="#demo"><i>05</i>Demo</a>
+      <a href="#industrias"><i>06</i>Industrias</a>
+      <a href="#metodo"><i>07</i>Método</a>
+      <a href="#precios"><i>08</i>Precios</a>
+      <a href="#nosotros"><i>09</i>Nosotros</a>
+      <a href="#contacto"><i>10</i>Contacto</a>
+    </nav>
+  </div>
+
   <main>
-    <section class="hero" id="inicio">
-      <canvas id="topo" class="hero__topo" aria-hidden="true"></canvas>
-      <div class="hero__probe" id="probe" aria-hidden="true"><span id="probeTxt"></span></div>
-      <div class="wrap hero__in">
-        <p class="eyebrow load" style="--i:0">Plataforma de IA e Ingeniería de Datos</p>
-        <h1 class="hero__title">
-          <span class="ln"><span>Convierte tus datos</span></span>
-          <span class="ln"><span>en <span class="swap" id="swap">decisiones</span><span class="caret" aria-hidden="true"></span></span></span>
-        </h1>
-        <p class="hero__lead load" style="--i:3">SKYLAB conecta la información de tu empresa, entrena modelos de inteligencia artificial con ella y automatiza el trabajo repetitivo. Para microempresas, PyMEs y grandes compañías.</p>
-        <div class="hero__ctas load" style="--i:4">
-          <a href="#contacto" class="btn btn--dark">Agendar una demo <span aria-hidden="true">→</span></a>
-          <a href="#demo" class="btn btn--line">Probar la plataforma</a>
-        </div>
-
-        <div class="ask load" style="--i:5" aria-label="Ejemplo de consulta en lenguaje natural">
-          <div class="ask__bar">
-            <span class="ask__kbd">⌘K</span>
-            <span class="ask__q" id="askQ"></span><span class="ask__cursor" aria-hidden="true"></span>
-            <span class="ask__tag">Ejemplo</span>
-          </div>
-          <div class="ask__ans" id="askA">
-            <svg class="ask__spark" viewBox="0 0 120 32" preserveAspectRatio="none" aria-hidden="true"><path id="askSpark" d=""/></svg>
-            <div><b id="askVal">—</b><span id="askTxt">Procesando…</span></div>
-          </div>
-          <div class="ask__chips" id="askChips"></div>
-        </div>
-      </div>
-      <div class="hero__foot wrap">
-        <span>Mueve el cursor sobre el relieve: así se ven tus datos cuando se mueven.</span>
-        <span class="hero__scroll">Desliza <span aria-hidden="true">↓</span></span>
-      </div>
-    </section>
-
-    <section class="logos" aria-label="Integraciones">
-      <div class="wrap logos__in">
-        <p>Se conecta con lo que ya usas</p>
-        <div class="logos__track">
-          <div class="logos__row">
-            <span>Excel</span><span>Google Sheets</span><span>Shopify</span><span>WooCommerce</span><span>WhatsApp</span><span>SAP</span><span>Salesforce</span><span>HubSpot</span><span>PostgreSQL</span><span>SQL Server</span><span>BigQuery</span><span>Snowflake</span><span>Power BI</span><span>APIs REST</span>
-          </div>
-          <div class="logos__row" aria-hidden="true">
-            <span>Excel</span><span>Google Sheets</span><span>Shopify</span><span>WooCommerce</span><span>WhatsApp</span><span>SAP</span><span>Salesforce</span><span>HubSpot</span><span>PostgreSQL</span><span>SQL Server</span><span>BigQuery</span><span>Snowflake</span><span>Power BI</span><span>APIs REST</span>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section class="sec" id="plataforma">
+    <!-- 00 · HERO -->
+    <section class="chap chap--hero" id="inicio" data-scene="hero" data-label="Inicio">
       <div class="wrap">
-        <header class="sec__head rv">
-          <p class="eyebrow">Plataforma</p>
-          <h2>Ocho módulos. <span class="mute">Una sola base de datos, una sola cuenta, un solo equipo de soporte.</span></h2>
-        </header>
-        <div class="index rv" id="index" role="list"></div>
-        <p class="index__hint rv">Selecciona un módulo para ver el detalle.</p>
-      </div>
-      <div class="peek" id="peek" aria-hidden="true"><canvas id="peekCanvas"></canvas><span id="peekLabel"></span></div>
-    </section>
-
-    <section class="sec sec--gray" id="empresas">
-      <div class="wrap">
-        <header class="sec__head rv">
-          <p class="eyebrow">Para cada tamaño</p>
-          <h2>¿Cuántas personas trabajan en tu empresa? <span class="mute">Mueve el control y te mostramos por dónde empezar.</span></h2>
-        </header>
-
-        <div class="sizer rv">
-          <div class="sizer__top">
-            <div>
-              <p class="sizer__num"><span id="sizeNum">8</span><small> personas</small></p>
-              <p class="sizer__seg" id="sizeSeg">Microempresa</p>
-            </div>
-            <p class="sizer__desc" id="sizeDesc"></p>
-          </div>
-          <input type="range" id="sizeRange" min="0" max="1000" value="240" aria-label="Número de personas en la empresa" />
-          <div class="sizer__ticks" aria-hidden="true"><span>1</span><span>10</span><span>50</span><span>250</span><span>1.000</span><span>5.000+</span></div>
-
-          <div class="sizer__grid">
-            <div class="sizer__mods">
-              <p class="label">Módulos recomendados</p>
-              <ul id="sizeMods"></ul>
-            </div>
-            <dl class="sizer__facts">
-              <div><dt>Plan sugerido</dt><dd id="sizePlan">Esencial</dd></div>
-              <div><dt>Tiempo de puesta en marcha</dt><dd id="sizeTime">1 a 7 días</dd></div>
-              <div><dt>Acompañamiento</dt><dd id="sizeTeam">Soporte por chat</dd></div>
-            </dl>
+        <div class="chap__txt">
+          <p class="kicker load" style="--i:0">Ingeniería de datos <span>·</span> Machine learning <span>·</span> IA generativa</p>
+          <h1 class="display load" style="--i:1">Convierte tus datos en <span class="grad" id="swap">decisiones</span>.</h1>
+          <p class="lead load" style="--i:2">Lo que ves es una red neuronal: cada punto es una neurona y cada destello, un dato que la atraviesa. SKYLAB construye la ingeniería de datos de tu empresa, entrena modelos de machine learning sobre ella y conecta modelos de lenguaje como Claude a tus procesos. Para microempresas, PyMEs y grandes compañías.</p>
+          <div class="ctas load" style="--i:3">
+            <a href="#contacto" class="btn btn--solid">Agendar una demo</a>
+            <a href="#datos" class="scrollhint">Desliza para ver cómo funciona <span aria-hidden="true">↓</span></a>
           </div>
         </div>
       </div>
     </section>
 
-    <section class="method" id="metodo">
-      <div class="method__sticky">
-        <div class="wrap method__head">
-          <p class="eyebrow">Método</p>
-          <h2>De la primera reunión a resultados medibles, <span class="mute">en cinco pasos.</span></h2>
+    <!-- 01 · LOS DATOS -->
+    <section class="chap" id="datos" data-scene="scatter" data-label="Tus datos">
+      <div class="wrap">
+        <div class="chap__txt">
+          <p class="kicker">01 <span>·</span> Tus datos</p>
+          <h2 class="h2"><span class="big grad">14</span> lugares distintos donde vive tu información</h2>
+          <p class="lead">Ventas en Excel, pedidos en Shopify, clientes en WhatsApp, facturas en PDF, inventario en el ERP. Cada nube de partículas es una fuente: <b>datos que ya tienes</b>, pero que <b>no se hablan entre sí</b>, se <b>duplican</b> o <span class="t-blue">nadie analiza</span>.</p>
+          <ul class="chips" aria-label="Integraciones">
+            <li>Excel</li><li>Google Sheets</li><li>Shopify</li><li>WooCommerce</li><li>WhatsApp</li><li>SAP</li><li>Salesforce</li><li>HubSpot</li><li>PostgreSQL</li><li>SQL Server</li><li>BigQuery</li><li>Snowflake</li><li>Power BI</li><li>APIs REST</li>
+          </ul>
         </div>
-        <div class="method__track" id="methodTrack">
-          <article class="step">
-            <span class="step__n">01</span>
-            <p class="step__time">Semana 1</p>
-            <h3>Diagnóstico</h3>
-            <p>Revisamos tus datos y procesos, y elegimos los casos de uso con mayor retorno para tu negocio.</p>
-            <p class="step__out"><span>Entregable</span>Mapa de oportunidades priorizado</p>
-          </article>
-          <article class="step">
-            <span class="step__n">02</span>
-            <p class="step__time">Semanas 1 – 2</p>
-            <h3>Integración</h3>
-            <p>Conectamos tus fuentes y construimos flujos de datos confiables, monitoreados y documentados.</p>
-            <p class="step__out"><span>Entregable</span>Datos unificados en una sola base</p>
-          </article>
-          <article class="step">
-            <span class="step__n">03</span>
-            <p class="step__time">Semanas 2 – 3</p>
-            <h3>Modelado</h3>
-            <p>Entrenamos y validamos modelos de IA con tus datos, con métricas de éxito acordadas contigo.</p>
-            <p class="step__out"><span>Entregable</span>Modelos validados</p>
-          </article>
-          <article class="step">
-            <span class="step__n">04</span>
-            <p class="step__time">Semana 4</p>
-            <h3>Despliegue</h3>
-            <p>Ponemos la solución en manos de tu equipo, integrada a sus herramientas y con capacitación.</p>
-            <p class="step__out"><span>Entregable</span>Solución en producción</p>
-          </article>
-          <article class="step">
-            <span class="step__n">05</span>
-            <p class="step__time">Continuo</p>
-            <h3>Mejora continua</h3>
-            <p>Medimos el impacto cada mes, re-entrenamos los modelos y extendemos la solución a nuevas áreas.</p>
-            <p class="step__out"><span>Entregable</span>Informe mensual de impacto</p>
-          </article>
-        </div>
-        <div class="wrap method__bar"><span id="methodBar"></span></div>
       </div>
     </section>
 
-    <section class="sec" id="demo">
+    <!-- 02 · LA BASE -->
+    <section class="chap chap--right" id="base" data-scene="lake" data-label="La base">
       <div class="wrap">
-        <header class="sec__head rv">
-          <p class="eyebrow">Demo interactiva</p>
-          <h2>Pruébalo ahora mismo. <span class="mute">Tres módulos funcionando en tu navegador.</span></h2>
-        </header>
+        <div class="chap__txt">
+          <p class="kicker">02 <span>·</span> La base</p>
+          <h2 class="h2">Ahora pon cada dato en <span class="grad">su lugar</span>.</h2>
+          <p class="lead">SKYLAB Nexus conecta tus fuentes y ordena todo en una sola plataforma de datos por capas: <span class="t-bronze">bronce</span> para los datos crudos, <span class="t-silver">plata</span> para los limpios y <span class="t-gold">oro</span> para los que ya están listos para tableros e IA.</p>
+          <dl class="stats">
+            <div><dt>Integraciones</dt><dd>+300</dd></div>
+            <div><dt>Disponibilidad objetivo</dt><dd>99,9 %</dd></div>
+            <div><dt>Cifrado</dt><dd>AES-256</dd></div>
+          </dl>
+          <ul class="chips chips--tech" aria-label="Tecnologías de datos"><li>Python</li><li>SQL</li><li>Spark</li><li>dbt</li><li>Airflow</li><li>Kafka</li><li>Delta Lake</li><li>BigQuery</li><li>Snowflake</li></ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- 03 · SOLUCIONES DE IA -->
+    <section class="chap chap--tall" id="soluciones" data-scene="embed" data-label="Soluciones">
+      <div class="wrap">
+        <div class="chap__txt">
+          <p class="kicker">03 <span>·</span> Soluciones de IA</p>
+          <h2 class="h2"><span class="big grad" id="modCount">19</span> soluciones de IA.<br />Una sola plataforma.</h2>
+          <p class="lead">Así se ve nuestro catálogo en un espacio de embeddings: cada nube agrupa soluciones parecidas. Todas comparten tus datos, tu cuenta y tu equipo de soporte: activa una hoy y suma las demás cuando las necesites.</p>
+        </div>
+        <div class="filters rv" role="tablist" aria-label="Filtrar por categoría" id="filters"></div>
+        <div class="mods" id="mods" role="list"></div>
+      </div>
+    </section>
+
+    <!-- 04 · IA CON RESPALDO -->
+    <section class="chap" id="confianza" data-scene="attention" data-label="Modelos de lenguaje">
+      <div class="wrap">
+        <div class="chap__txt">
+          <p class="kicker">04 <span>·</span> Modelos de lenguaje</p>
+          <h2 class="h2">Claude y los mejores LLM,<br /><span class="grad">conectados a tus datos.</span></h2>
+          <p class="lead">En la animación, una capa de atención de un transformer: cada palabra de tu pregunta mira a las demás para entender qué necesitas. Sobre esa tecnología, con modelos como Claude de Anthropic, construimos asistentes, agentes y búsquedas que responden con tus datos y citan la fuente.</p>
+          <ul class="chips chips--tech" aria-label="Tecnologías de IA"><li>Claude</li><li>RAG</li><li>Embeddings</li><li>Agentes</li><li>MCP</li><li>Fine-tuning</li><li>PyTorch</li><li>scikit-learn</li><li>XGBoost</li></ul>
+          <ol class="proofs">
+            <li><b>Tus datos son tuyos.</b> Se cifran, se aíslan por cliente y nunca entrenan modelos de terceros.</li>
+            <li><b>Cada respuesta con su fuente.</b> Cada cifra viene con la consulta, el documento o la fila de la que salió.</li>
+            <li><b>Una persona en el ciclo.</b> Las decisiones sensibles pasan por aprobación humana, con registro de auditoría.</li>
+          </ol>
+          <div class="code rv">
+            <p class="code__bar"><span>SKYLAB Insight</span><span>consulta.sql</span></p>
+<pre><code><span class="c">-- "¿Mis 5 productos con más margen en el tercer trimestre?"</span>
+<span class="k">SELECT</span>   producto, <span class="k">SUM</span>(margen) <span class="k">AS</span> margen_total
+<span class="k">FROM</span>     ventas <span class="k">WHERE</span> trimestre = <span class="s">'Q3'</span>
+<span class="k">GROUP BY</span> producto <span class="k">ORDER BY</span> margen_total <span class="k">DESC</span>
+<span class="k">LIMIT</span>    5;
+<span class="ok">-- ✓ 5 filas · fuente: ventas_oro · 0,4 s</span></code></pre>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 05 · DEMO -->
+    <section class="chap chap--tall" id="demo" data-scene="attentionDim" data-label="Demo">
+      <div class="wrap">
+        <div class="chap__txt chap__txt--wide">
+          <p class="kicker">05 <span>·</span> Pruébalo</p>
+          <h2 class="h2">Tres soluciones funcionando <span class="grad">en tu navegador</span>.</h2>
+        </div>
 
         <div class="console rv">
           <div class="console__bar">
@@ -207,7 +174,7 @@
           <div class="panel is-on" data-panel="chat">
             <div class="chat">
               <div class="chat__head">
-                <span class="chat__av"><svg viewBox="0 0 40 40" aria-hidden="true"><use href="#mark"/></svg></span>
+                <span class="chat__av"><svg aria-hidden="true"><use href="#mark"/></svg></span>
                 <div><b>Asistente · Tienda Aurora</b><small>WhatsApp · responde al instante</small></div>
               </div>
               <div class="chat__body" id="chatBody">
@@ -225,7 +192,7 @@
               </form>
             </div>
             <aside class="trace">
-              <p class="label label--inv">Lo que hace el agente por dentro</p>
+              <p class="label">Lo que hace el agente por dentro</p>
               <ol class="trace__log" id="chatLog">
                 <li><time>00:00</time>Conversación iniciada desde WhatsApp</li>
               </ol>
@@ -257,7 +224,7 @@
           <div class="panel" data-panel="pipeline">
             <div class="pipe" id="pipe">
               <div class="pipe__col">
-                <p class="label label--inv">Fuentes</p>
+                <p class="label">Fuentes</p>
                 <div class="node" data-n="src">Shopify</div>
                 <div class="node" data-n="src">Excel de ventas</div>
                 <div class="node" data-n="src">ERP</div>
@@ -267,7 +234,7 @@
                 <path d="M0 18 C50 18 50 55 100 55"/><path d="M0 40 C50 40 50 55 100 55"/><path d="M0 62 C50 62 50 55 100 55"/><path d="M0 84 C50 84 50 55 100 55"/>
               </svg>
               <div class="pipe__col">
-                <p class="label label--inv">Nexus</p>
+                <p class="label">Nexus</p>
                 <div class="node node--core" id="pipeCore">
                   <b>Transformación</b>
                   <small id="pipeStatus">Listo para ejecutar</small>
@@ -278,7 +245,7 @@
                 <path d="M0 55 C50 55 50 28 100 28"/><path d="M0 55 C50 55 50 55 100 55"/><path d="M0 55 C50 55 50 82 100 82"/>
               </svg>
               <div class="pipe__col">
-                <p class="label label--inv">Destinos</p>
+                <p class="label">Destinos</p>
                 <div class="node" data-n="dst">Insight</div>
                 <div class="node" data-n="dst">Forecast</div>
                 <div class="node" data-n="dst">Agents</div>
@@ -290,7 +257,7 @@
                 <div><dt>Duplicados eliminados</dt><dd id="pDup">0</dd></div>
                 <div><dt>Calidad</dt><dd id="pQual">—</dd></div>
               </dl>
-              <button class="btn btn--light" id="pipeRun" type="button">Ejecutar pipeline</button>
+              <button class="btn btn--solid" id="pipeRun" type="button">Ejecutar pipeline</button>
             </div>
             <pre class="term" id="pipeTerm">$ skylab pipeline run ventas_unificadas</pre>
           </div>
@@ -298,11 +265,45 @@
       </div>
     </section>
 
-    <section class="sec sec--gray" id="ahorro">
-      <div class="wrap roi">
-        <div class="rv">
-          <p class="eyebrow">Calculadora</p>
-          <h2>¿Cuánto le cuestan a tu empresa las tareas manuales?</h2>
+    <!-- 06 · INDUSTRIAS -->
+    <section class="chap chap--tall" id="industrias" data-scene="bars" data-label="Industrias">
+      <div class="wrap">
+        <div class="chap__txt">
+          <p class="kicker">06 <span>·</span> Por industria</p>
+          <h2 class="h2">La misma IA, <span class="grad">hablando el idioma de tu sector</span>.</h2>
+          <p class="lead">Partimos de casos de uso probados en cada industria y los adaptamos a tus datos. Cada columna es un indicador que tus modelos vigilan en tiempo real.</p>
+        </div>
+        <div class="inds" id="inds"></div>
+      </div>
+    </section>
+
+    <!-- 07 · MÉTODO -->
+    <section class="chap chap--right chap--tall" id="metodo" data-scene="loss" data-label="Método">
+      <div class="wrap">
+        <div class="chap__txt">
+          <p class="kicker">07 <span>·</span> Método</p>
+          <h2 class="h2">De la primera reunión a resultados medibles, <span class="grad">en cinco pasos</span>.</h2>
+          <p class="lead">Como un modelo que desciende por su superficie de error, cada paso nos acerca al mínimo: menos costo, menos errores, mejores decisiones.</p>
+          <ol class="steps">
+            <li><span class="steps__n">01</span><div><p class="steps__t">Semana 1</p><h3>Diagnóstico</h3><p>Revisamos tus datos y procesos, y elegimos los casos de uso con mayor retorno.</p></div></li>
+            <li><span class="steps__n">02</span><div><p class="steps__t">Semanas 1 – 2</p><h3>Integración</h3><p>Conectamos tus fuentes y construimos flujos de datos confiables y monitoreados.</p></div></li>
+            <li><span class="steps__n">03</span><div><p class="steps__t">Semanas 2 – 3</p><h3>Modelado</h3><p>Entrenamos y validamos modelos con tus datos y métricas de éxito acordadas contigo.</p></div></li>
+            <li><span class="steps__n">04</span><div><p class="steps__t">Semana 4</p><h3>Despliegue</h3><p>La solución llega a tu equipo, integrada a sus herramientas y con capacitación.</p></div></li>
+            <li><span class="steps__n">05</span><div><p class="steps__t">Continuo</p><h3>Mejora continua</h3><p>Medimos el impacto cada mes, re-entrenamos y extendemos a nuevas áreas.</p></div></li>
+          </ol>
+        </div>
+      </div>
+    </section>
+
+    <!-- 08 · RETORNO Y PRECIOS -->
+    <section class="chap chap--tall" id="precios" data-scene="embedDim" data-label="Precios">
+      <div class="wrap">
+        <div class="chap__txt chap__txt--wide">
+          <p class="kicker">08 <span>·</span> Retorno y precios</p>
+          <h2 class="h2">¿Cuánto te cuestan <span class="grad">las tareas manuales</span>?</h2>
+        </div>
+
+        <div class="roi glass rv">
           <div class="roi__in">
             <label for="rPeople">Personas con tareas repetitivas <output id="oPeople">8</output></label>
             <input type="range" id="rPeople" min="1" max="200" value="8" />
@@ -313,74 +314,67 @@
             <label for="rAuto">Parte que se puede automatizar <output id="oAuto">60%</output></label>
             <input type="range" id="rAuto" min="10" max="90" value="60" step="5" />
           </div>
-        </div>
-        <div class="roi__out rv">
-          <p class="label">Ahorro anual estimado</p>
-          <p class="roi__big"><span>USD</span> <b id="roiSave">0</b></p>
-          <div class="roi__bars">
-            <div><span>Horas manuales hoy</span><i id="barNow"></i><b id="roiNow">0 h</b></div>
-            <div><span>Con SKYLAB</span><i id="barNew"></i><b id="roiNew">0 h</b></div>
+          <div class="roi__out">
+            <p class="label">Ahorro anual estimado</p>
+            <p class="roi__big"><span>USD</span> <b id="roiSave">0</b></p>
+            <div class="roi__bars">
+              <div><span>Horas manuales hoy</span><i id="barNow"></i><b id="roiNow">0 h</b></div>
+              <div><span>Con SKYLAB</span><i id="barNew"></i><b id="roiNew">0 h</b></div>
+            </div>
+            <dl class="roi__facts">
+              <div><dt>Horas liberadas al año</dt><dd id="roiHours">0</dd></div>
+              <div><dt>Retorno sobre el plan</dt><dd id="roiX">0x</dd></div>
+              <div><dt>Plan sugerido</dt><dd id="roiPlan">Esencial</dd></div>
+            </dl>
+            <p class="note">Estimación orientativa con 48 semanas laborales al año. El resultado real depende de cada proceso.</p>
           </div>
-          <dl class="roi__facts">
-            <div><dt>Horas liberadas al año</dt><dd id="roiHours">0</dd></div>
-            <div><dt>Retorno sobre el plan</dt><dd id="roiX">0x</dd></div>
-            <div><dt>Plan sugerido</dt><dd id="roiPlan">Esencial</dd></div>
-          </dl>
-          <p class="note">Estimación orientativa con 48 semanas laborales al año. El resultado real depende de cada proceso.</p>
         </div>
-      </div>
-    </section>
 
-    <section class="sec" id="precios">
-      <div class="wrap">
-        <header class="sec__head sec__head--row rv">
-          <div>
-            <p class="eyebrow">Precios</p>
-            <h2>Planes claros. <span class="mute">Sin letra pequeña.</span></h2>
-          </div>
+        <div class="plans__head rv">
+          <h3 class="h3">Planes claros. <span class="mute">Sin letra pequeña.</span></h3>
           <div class="billing" role="group" aria-label="Periodo de facturación">
             <button type="button" class="is-on" data-bill="m">Mensual</button>
             <button type="button" data-bill="y">Anual · 2 meses gratis</button>
           </div>
-        </header>
+        </div>
         <div class="plans">
-          <article class="plan rv">
+          <article class="plan glass rv">
             <p class="plan__name">Esencial</p>
             <p class="plan__for">Microempresas y emprendedores</p>
             <p class="plan__price"><span>USD</span><b data-m="49" data-y="39">49</b><small>/mes</small></p>
-            <a href="#contacto" class="btn btn--line btn--block">Empezar prueba de 14 días</a>
+            <a href="#contacto" class="btn btn--ghost btn--block">Empezar prueba de 14 días</a>
             <ul>
-              <li>Asistente de IA en WhatsApp y web</li>
+              <li>Agents en WhatsApp y web</li>
               <li>1.000 conversaciones al mes</li>
-              <li>Tablero de ventas</li>
+              <li>Tablero de ventas con Insight</li>
               <li>DocAI: 200 documentos al mes</li>
               <li>Soporte por chat en español</li>
             </ul>
           </article>
-          <article class="plan plan--dark rv">
+          <article class="plan plan--hot glass rv">
             <p class="plan__name">Crecimiento <span class="pill">Recomendado</span></p>
             <p class="plan__for">PyMEs</p>
             <p class="plan__price"><span>USD</span><b data-m="390" data-y="312">390</b><small>/mes</small></p>
-            <a href="#contacto" class="btn btn--light btn--block">Empezar prueba de 14 días</a>
+            <a href="#contacto" class="btn btn--solid btn--block">Empezar prueba de 14 días</a>
             <ul>
               <li>Todo lo del plan Esencial</li>
               <li>Nexus: 20 conectores de datos</li>
-              <li>Forecast y Pulse incluidos</li>
+              <li>Forecast, Pulse y Leads incluidos</li>
+              <li>Copilot interno con tus documentos</li>
               <li>Flow: 10.000 ejecuciones al mes</li>
-              <li>Preguntas a tus datos en español</li>
               <li>Gerente de cuenta dedicado</li>
             </ul>
           </article>
-          <article class="plan rv">
+          <article class="plan glass rv">
             <p class="plan__name">Corporativo</p>
             <p class="plan__for">Grandes empresas</p>
             <p class="plan__price plan__price--txt"><b>A medida</b></p>
-            <a href="#contacto" class="btn btn--line btn--block">Hablar con ventas</a>
+            <a href="#contacto" class="btn btn--ghost btn--block">Hablar con ventas</a>
             <ul>
-              <li>Los 8 módulos, incluido Shield</li>
+              <li>Las 19 soluciones, incluidas Vision y Voice</li>
               <li>Despliegue en tu nube o servidores</li>
               <li>Inicio de sesión único y permisos por rol</li>
-              <li>Modelos a medida y MLOps</li>
+              <li>Forge: modelos a medida y MLOps</li>
               <li>Acuerdo de nivel de servicio</li>
               <li>Equipo de ingeniería asignado</li>
             </ul>
@@ -390,43 +384,10 @@
       </div>
     </section>
 
-    <section class="sec sec--line" id="seguridad">
-      <div class="wrap spec">
-        <div class="rv">
-          <p class="eyebrow">Seguridad y tecnología</p>
-          <h2>Construido para datos que importan.</h2>
-          <dl class="spec__tbl">
-            <div><dt>Cifrado</dt><dd>AES-256 en reposo · TLS 1.3 en tránsito</dd></div>
-            <div><dt>Privacidad</dt><dd>Tus datos nunca entrenan modelos de terceros</dd></div>
-            <div><dt>Disponibilidad objetivo</dt><dd>99,9 %</dd></div>
-            <div><dt>Despliegue</dt><dd>Nube SKYLAB · Nube del cliente · Servidores propios</dd></div>
-            <div><dt>Modelos</dt><dd>Modelos de lenguaje líderes y modelos de ML propios por industria</dd></div>
-            <div><dt>Respaldos</dt><dd>Diarios, con aislamiento por cliente</dd></div>
-            <div><dt>Soporte</dt><dd>En español, con equipo en Latinoamérica</dd></div>
-          </dl>
-        </div>
-        <div class="code rv">
-          <p class="code__bar"><span>SKYLAB Insight</span><span>consulta.sql</span></p>
-<pre><code><span class="c">-- Pregunta en español</span>
-<span class="c">-- "¿Cuáles fueron mis 5 productos con más margen en el tercer trimestre?"</span>
-
-<span class="k">SELECT</span>   producto,
-         <span class="k">SUM</span>(margen) <span class="k">AS</span> margen_total
-<span class="k">FROM</span>     ventas
-<span class="k">WHERE</span>    trimestre = <span class="s">'Q3'</span>
-<span class="k">GROUP BY</span> producto
-<span class="k">ORDER BY</span> margen_total <span class="k">DESC</span>
-<span class="k">LIMIT</span>    5;
-
-<span class="c">-- ✓ 5 filas · gráfico generado · 0,4 s</span></code></pre>
-        </div>
-      </div>
-    </section>
-
-    <section class="sec sec--dark" id="nosotros">
+    <!-- 09 · NOSOTROS -->
+    <section class="chap chap--tall" id="nosotros" data-scene="heroFar" data-label="Nosotros">
       <div class="wrap letter">
         <div class="letter__side rv">
-          <p class="eyebrow eyebrow--inv">Carta del fundador</p>
           <figure class="portrait"><img src="assets/img/ceo.webp" alt="Juan Sebastián Zárate Camargo, fundador y CEO de SKYLAB" width="832" height="1167" loading="lazy" /></figure>
           <dl class="letter__mv">
             <div><dt>Misión</dt><dd>Llevar la inteligencia artificial a empresas de todos los tamaños con soluciones simples, seguras y rentables.</dd></div>
@@ -434,49 +395,41 @@
           </dl>
         </div>
         <div class="letter__body rv">
+          <p class="kicker">09 <span>·</span> Carta del fundador</p>
           <p class="letter__lead">La inteligencia artificial no debería ser un privilegio de las grandes corporaciones.</p>
           <p>Fundé SKYLAB porque vi a demasiadas empresas tomar decisiones importantes con hojas de cálculo desordenadas y reportes que llegan tarde. La información para decidir mejor ya existe dentro de cada negocio; casi siempre está dispersa, incompleta o sin nadie que la interprete.</p>
           <p>Nuestro trabajo es ordenar esos datos, construir sobre ellos modelos que realmente funcionen y entregarlos en herramientas que cualquier equipo pueda usar. La misma calidad para una tienda de barrio, una PyME industrial o una multinacional.</p>
           <p>Si tu empresa quiere decidir con evidencia, queremos ayudarte.</p>
           <div class="sign">
-            <p class="sign__script" id="signature">Juan S. Zárate</p>
+            <p class="sign__script">Juan S. Zárate</p>
             <p class="sign__name">Juan Sebastián Zárate Camargo</p>
             <p class="sign__role">Fundador y CEO, SKYLAB</p>
             <a class="sign__link" href="https://github.com/Sebas404-ctrl" target="_blank" rel="noopener">github.com/Sebas404-ctrl ↗</a>
           </div>
         </div>
       </div>
-    </section>
 
-    <section class="sec" id="faq">
       <div class="wrap faq">
-        <header class="rv">
-          <p class="eyebrow">Preguntas frecuentes</p>
-          <h2>Lo que nos preguntan antes de empezar.</h2>
-        </header>
+        <h3 class="h3 rv">Lo que nos preguntan antes de empezar.</h3>
         <div class="faq__list rv">
           <details><summary>¿Necesito un equipo técnico para usar SKYLAB?</summary><p>No. Los planes Esencial y Crecimiento se configuran con asistentes guiados. Para proyectos más grandes, nuestro equipo hace la implementación contigo.</p></details>
           <details><summary>¿Cuánto tarda la implementación?</summary><p>Un asistente de WhatsApp puede quedar listo en un día. Una plataforma de datos con pronósticos para una PyME suele tomar entre dos y cuatro semanas. Los proyectos corporativos se planean por fases.</p></details>
           <details><summary>¿Qué pasa con la privacidad de mis datos?</summary><p>Se cifran en reposo y en tránsito, se aíslan por cliente y nunca se usan para entrenar modelos de terceros. Puedes exportarlos o eliminarlos cuando quieras.</p></details>
-          <details><summary>¿Puedo empezar con un solo módulo?</summary><p>Sí. Activa el módulo que necesitas y suma otros después. Todos comparten la misma base de datos, así que cada módulo nuevo aprovecha lo que ya está conectado.</p></details>
+          <details><summary>¿Puedo empezar con una sola solución?</summary><p>Sí. Activa la que necesitas y suma otras después. Todas comparten la misma base de datos, así que cada solución nueva aprovecha lo que ya está conectado.</p></details>
           <details><summary>¿Hay prueba gratuita?</summary><p>Sí: 14 días en los planes Esencial y Crecimiento, sin tarjeta de crédito. En el plan Corporativo hacemos un piloto con tus propios datos.</p></details>
         </div>
       </div>
     </section>
 
-    <section class="sec sec--dark" id="contacto">
-      <div class="wrap contact">
-        <div class="rv">
-          <p class="eyebrow eyebrow--inv">Contacto</p>
-          <h2 class="contact__title">Hablemos de tus datos.</h2>
-          <p class="contact__lead">Agenda una demo de 30 minutos. Te mostramos SKYLAB aplicado a tu negocio, con tus propios casos.</p>
-          <ul class="checks">
-            <li>Diagnóstico gratuito de tus datos</li>
-            <li>Propuesta en menos de 48 horas</li>
-            <li>Sin compromiso</li>
-          </ul>
+    <!-- 10 · CONTACTO -->
+    <section class="chap chap--center chap--tall" id="contacto" data-scene="final" data-label="Contacto">
+      <div class="wrap">
+        <div class="final">
+          <p class="kicker">10 <span>·</span> Contacto</p>
+          <h2 class="display display--md">Encuentra la oportunidad <span class="grad">antes que tu competencia</span>.</h2>
+          <p class="lead">Agenda una demo de 30 minutos. Te mostramos SKYLAB aplicado a tu negocio, con tus propios casos. Diagnóstico gratuito, propuesta en menos de 48 horas y sin compromiso.</p>
         </div>
-        <form class="form rv" id="contactForm" novalidate>
+        <form class="form glass rv" id="contactForm" novalidate>
           <div class="form__row">
             <div class="field"><label for="fName">Nombre completo</label><input id="fName" name="nombre" required autocomplete="name" /></div>
             <div class="field"><label for="fEmail">Correo de trabajo</label><input id="fEmail" name="email" type="email" required autocomplete="email" /></div>
@@ -489,8 +442,9 @@
             <label><input type="radio" name="tamano" value="mediana" /><span>51 – 250</span></label>
             <label><input type="radio" name="tamano" value="grande" /><span>+250</span></label>
           </fieldset>
+          <div class="field"><label for="fInterest">Solución de interés <span class="opt">Opcional</span></label><select id="fInterest" name="interes"><option value="">Aún no lo sé</option></select></div>
           <div class="field"><label for="fMsg">¿Qué te gustaría resolver? <span class="opt">Opcional</span></label><textarea id="fMsg" name="mensaje" rows="3"></textarea></div>
-          <button type="submit" class="btn btn--light btn--block" id="sendBtn">Solicitar demo <span aria-hidden="true">→</span></button>
+          <button type="submit" class="btn btn--solid btn--block" id="sendBtn">Solicitar demo <span aria-hidden="true">→</span></button>
           <p class="form__msg" id="formMsg" role="status"></p>
         </form>
       </div>
@@ -498,36 +452,13 @@
   </main>
 
   <footer class="footer">
-    <div class="wrap">
-      <div class="footer__cols">
-        <div>
-          <a href="#inicio" class="brand" aria-label="SKYLAB, ir al inicio">
-            <svg class="brand__mark" viewBox="0 0 40 40" aria-hidden="true"><use href="#mark"/></svg>
-            <span class="brand__word">SKYLAB</span>
-          </a>
-          <p>Inteligencia Artificial e Ingeniería de Datos para empresas de todos los tamaños.</p>
-        </div>
-        <div>
-          <p class="label">Plataforma</p>
-          <a href="#plataforma">Nexus · Insight</a><a href="#plataforma">Agents · DocAI · Flow</a><a href="#plataforma">Forecast · Pulse · Shield</a>
-        </div>
-        <div>
-          <p class="label">Empresa</p>
-          <a href="#nosotros">Nosotros</a><a href="#precios">Precios</a><a href="#faq">Preguntas</a><a href="#contacto">Contacto</a>
-        </div>
-        <div>
-          <p class="label">Boletín mensual</p>
-          <form class="news" id="newsForm"><label for="newsMail" class="sr">Correo</label><input id="newsMail" type="email" placeholder="tu@empresa.com" required /><button type="submit">Suscribirme</button></form>
-          <p class="news__msg" id="newsMsg" role="status"></p>
-        </div>
-      </div>
-      <div class="footer__word" aria-hidden="true">
-        <svg viewBox="0 0 40 40"><use href="#mark"/></svg><span>SKYLAB</span>
-      </div>
-      <div class="footer__bottom">
-        <span>© <span id="year"></span> SKYLAB. Todos los derechos reservados.</span>
-        <span>CEO · Juan Sebastián Zárate Camargo</span>
-      </div>
+    <div class="wrap footer__in">
+      <a href="#inicio" class="brand" aria-label="SKYLAB, ir al inicio">
+        <svg class="brand__mark" aria-hidden="true"><use href="#mark"/></svg>
+        <span class="brand__word">SKYLAB</span>
+      </a>
+      <p>SKYLAB · Inteligencia Artificial e Ingeniería de Datos · CEO Juan Sebastián Zárate Camargo</p>
+      <p>© <span id="year"></span> SKYLAB. Todos los derechos reservados. · Hecho en Latinoamérica</p>
     </div>
   </footer>
 
@@ -535,28 +466,29 @@
     <div class="drawer__bg" data-close></div>
     <aside class="drawer__panel" role="dialog" aria-modal="true" aria-labelledby="dTitle">
       <div class="drawer__top">
-        <span id="dCode">01 / 08</span>
+        <span id="dCode">01 / 19</span>
         <div class="drawer__nav">
-          <button type="button" id="dPrev" aria-label="Módulo anterior">←</button>
-          <button type="button" id="dNext" aria-label="Módulo siguiente">→</button>
+          <button type="button" id="dPrev" aria-label="Solución anterior">←</button>
+          <button type="button" id="dNext" aria-label="Solución siguiente">→</button>
           <button type="button" data-close aria-label="Cerrar">✕</button>
         </div>
       </div>
-      <div class="drawer__vis"><canvas id="dCanvas"></canvas></div>
+      <div class="drawer__vis" id="dVis"><span id="dGlyph"></span></div>
       <div class="drawer__body">
-        <p class="label label--inv" id="dCat"></p>
+        <p class="kicker" id="dCat"></p>
         <h3 id="dTitle"></h3>
         <p class="drawer__tag" id="dTag"></p>
         <p class="drawer__desc" id="dDesc"></p>
         <div class="drawer__cols">
-          <div><p class="label label--inv">Qué incluye</p><ul id="dFeats"></ul></div>
-          <div><p class="label label--inv">Casos de uso</p><ul id="dUses"></ul></div>
+          <div><p class="label">Qué incluye</p><ul id="dFeats"></ul></div>
+          <div><p class="label">Casos de uso</p><ul id="dUses"></ul></div>
         </div>
-        <a href="#contacto" class="btn btn--light" data-close>Solicitar demo de este módulo</a>
+        <a href="#contacto" class="btn btn--solid" id="dCta" data-close>Solicitar demo de esta solución</a>
       </div>
     </aside>
   </div>
 
   <script src="assets/js/main.js"></script>
+  <script type="module" src="assets/js/scene.js"></script>
 </body>
 </html>
