@@ -85,7 +85,7 @@ Actívalo en *Settings → Pages → Build and deployment → Source: GitHub Act
 
 ### Personalización pendiente
 
-- **Formulario de contacto:** hoy simula el envío. Conéctalo a un backend o a un servicio como Formspree (ver `TODO` en `assets/js/main.js`).
+- **Formulario de contacto:** envía las solicitudes de demo a tu correo con [Web3Forms](https://web3forms.com). Genera tu clave de acceso en web3forms.com y pégala en el campo `access_key` de `index.html` (formulario `#contactForm`). La clave no revela tu correo. Sin clave, el formulario avisa que aún no está activo.
 - **Métricas:** las cifras del sitio son objetivos / escenarios de referencia; actualízalas con resultados reales de clientes.
 
 ---

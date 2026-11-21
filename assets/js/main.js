@@ -514,13 +514,47 @@
     const radio = !!$("input[name=tamano]:checked", form);
     $(".field--seg", form).classList.toggle("is-bad", !radio); if (!radio) ok = false;
     if (!ok) { formMsg.className = "form__msg err"; formMsg.textContent = "Revisa los campos marcados."; return; }
+    const key = form.elements.access_key.value.trim();
+    if (!key) {
+      formMsg.className = "form__msg err";
+      formMsg.textContent = "El formulario todavía no está activo. Inténtalo de nuevo más tarde.";
+      console.warn("SKYLAB: falta la clave de Web3Forms en el campo access_key de index.html");
+      return;
+    }
+    if (form.elements.botcheck.checked) return; // trampa para bots
     sendBtn.disabled = true; sendBtn.innerHTML = 'Enviando <span aria-hidden="true">◌</span>';
     formMsg.className = "form__msg"; formMsg.textContent = "";
-    // TODO: conectar a un backend o a un servicio como Formspree.
-    await sleep(1100);
-    const name = $("#fName").value.trim().split(" ")[0];
+    const val = (id) => $(id).value.trim();
+    const size = $("input[name=tamano]:checked", form);
+    const name = val("#fName");
+    const payload = {
+      access_key: key,
+      subject: `Nueva solicitud de demo · ${val("#fCompany")}`,
+      from_name: "Sitio web SKYLAB",
+      Nombre: name,
+      email: val("#fEmail"),
+      Empresa: val("#fCompany"),
+      "Tamaño de la empresa": size ? size.nextElementSibling.textContent + " personas" : "",
+      "Solución de interés": $("#fInterest").value || "Aún no lo sabe",
+      Mensaje: val("#fMsg") || "(sin mensaje)",
+    };
+    let sentOk = false;
+    try {
+      const res = await fetch("https://api.web3forms.com/submit", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", Accept: "application/json" },
+        body: JSON.stringify(payload),
+      });
+      const data = await res.json().catch(() => ({}));
+      sentOk = res.ok && data.success !== false;
+    } catch (err) { sentOk = false; }
     sendBtn.disabled = false; sendBtn.innerHTML = 'Solicitar demo <span aria-hidden="true">→</span>';
-    formMsg.className = "form__msg ok"; formMsg.textContent = `Gracias, ${name}. Te escribiremos en menos de 24 horas.`;
+    if (!sentOk) {
+      formMsg.className = "form__msg err";
+      formMsg.textContent = "No pudimos enviar tu solicitud. Revisa tu conexión e inténtalo de nuevo.";
+      return;
+    }
+    formMsg.className = "form__msg ok"; formMsg.textContent = `Gracias, ${name.split(" ")[0]}. Te escribiremos en menos de 24 horas.`;
     emit("launch", {});
     form.reset();
   });
