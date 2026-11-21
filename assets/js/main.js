@@ -9,9 +9,88 @@
   const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
   root.classList.add("js");
-  const ready = () => root.classList.add("is-ready");
-  if (document.readyState === "complete") setTimeout(ready, 60); else addEventListener("load", () => setTimeout(ready, 60));
-  setTimeout(ready, 1500);
+  const FINE = matchMedia("(hover: hover) and (pointer: fine)").matches;
+  const GLYPHS = "01ABCDEFGHIJKLMNOPQRSTUVWXYZ<>/#%&*+=";
+
+  /* Texto que se "decodifica": cada letra pasa por caracteres al azar antes de fijarse */
+  const scramble = (el, dur = 900) => {
+    if (RM || !el) return;
+    const tok = (el._scrTok = (el._scrTok || 0) + 1);
+    if (el._scrHtml === undefined || !el.dataset.scrambling) el._scrHtml = el.innerHTML;
+    const html = el._scrHtml, txt = el.textContent, t0 = performance.now();
+    el.dataset.scrambling = "1";
+    const tick = (now) => {
+      if (el._scrTok !== tok) return;
+      const p = Math.min((now - t0) / dur, 1), fixed = Math.floor(p * txt.length);
+      el.textContent = txt.split("").map((c, i) => (i < fixed || c === " " || c === "·" ? c : GLYPHS[(Math.random() * GLYPHS.length) | 0])).join("");
+      if (p < 1) requestAnimationFrame(tick); else { el.innerHTML = html; delete el.dataset.scrambling; el._scrHtml = undefined; }
+    };
+    requestAnimationFrame(tick);
+  };
+
+  /* Divide títulos en palabras con máscara para revelarlas una a una */
+  const split = (el) => {
+    let wi = 0;
+    const wrap = (node) => {
+      [...node.childNodes].forEach((n) => {
+        if (n.nodeType === 3) {
+          const frag = document.createDocumentFragment();
+          n.textContent.split(/(\s+)/).forEach((part) => {
+            if (!part) return;
+            if (/^\s+$/.test(part)) { frag.append(" "); return; }
+            const w = document.createElement("span"); w.className = "w";
+            const i = document.createElement("span"); i.textContent = part; i.style.setProperty("--wi", wi++);
+            w.append(i); frag.append(w);
+          });
+          n.replaceWith(frag);
+        } else if (n.nodeType === 1 && n.tagName !== "BR") {
+          if (n.hasAttribute("data-keep")) {
+            const w = document.createElement("span"); w.className = "w";
+            const i = document.createElement("span"); i.style.setProperty("--wi", wi++);
+            n.replaceWith(w); i.append(n); w.append(i);
+          } else wrap(n);
+        }
+      });
+    };
+    wrap(el);
+  };
+  $$(".display, .h2").forEach((el) => { el.classList.add("split"); split(el); });
+
+  /* ---------------- Intro ---------------- */
+  const intro = $("#intro");
+  let seen = false;
+  try { seen = sessionStorage.getItem("skylab-intro") === "1"; sessionStorage.setItem("skylab-intro", "1"); } catch (e) { /* sin almacenamiento */ }
+  const INTRO_MS = RM ? 0 : seen ? 1600 : 3600;
+  let introDone = false;
+  const endIntro = () => {
+    if (introDone) return;
+    introDone = true;
+    intro.classList.add("is-done");
+    document.body.classList.remove("lock");
+    dispatchEvent(new CustomEvent("skylab:intro-end"));
+    setTimeout(() => { root.classList.add("is-ready"); $("#heroTitle")?.classList.add("in"); scramble($("#inicio .kicker")); }, RM ? 0 : 450);
+    setTimeout(() => intro.remove(), 1600);
+  };
+  if (INTRO_MS === 0) endIntro();
+  else {
+    document.body.classList.add("lock");
+    scrollTo(0, 0);
+    const count = $("#introCount"), bar = $("#introBar"), status = $("#introStatus");
+    const STATUS = ["Conectando fuentes", "Limpiando datos", "Entrenando modelos", "Listo"];
+    const t0 = performance.now();
+    setTimeout(() => scramble($("#introWord"), 1100), 250);
+    const tick = (now) => {
+      if (introDone) return;
+      const p = Math.min((now - t0) / INTRO_MS, 1), e = 1 - Math.pow(1 - p, 2.2);
+      count.textContent = String(Math.round(e * 100)).padStart(3, "0");
+      bar.style.transform = `scaleX(${e})`;
+      const st = STATUS[Math.min(STATUS.length - 1, Math.floor(p * STATUS.length))];
+      if (status.textContent !== st) status.textContent = st;
+      if (p < 1) requestAnimationFrame(tick); else setTimeout(endIntro, 250);
+    };
+    requestAnimationFrame(tick);
+    ["click", "keydown", "wheel", "touchstart"].forEach((ev) => addEventListener(ev, () => { if (performance.now() - t0 > 600) endIntro(); }, { once: true, passive: true }));
+  }
 
   /* ---------------------------------------------------------------
      Catálogo: 5 familias, 19 soluciones de IA.
@@ -155,7 +234,7 @@
   const dots = $("#dots");
   dots.innerHTML = chapters.map((c, i) => `<a href="#${c.id}" aria-label="${c.dataset.label}" title="${String(i).padStart(2, "0")} · ${c.dataset.label}"><i></i></a>`).join("");
   const dotEls = $$("a", dots);
-  let curScene = null, curIdx = -1;
+  let curIdx = -1;
   const updateChapter = () => {
     const mid = innerHeight * 0.5;
     let idx = 0;
@@ -164,8 +243,6 @@
     curIdx = idx;
     dotEls.forEach((d, i) => d.classList.toggle("is-on", i === idx));
     $$("a", menu).forEach((a) => a.classList.toggle("is-on", a.getAttribute("href") === `#${chapters[idx].id}`));
-    const s = chapters[idx].dataset.scene;
-    if (s !== curScene) { curScene = s; root.dataset.scene = s; emit("scene", { name: s }); }
   };
 
   /* ---------------- Revelado al hacer scroll ---------------- */
@@ -173,15 +250,29 @@
     entries.forEach((e) => { if (e.isIntersecting) { e.target.classList.add("in"); revObs.unobserve(e.target); } });
   }, { threshold: 0.12, rootMargin: "0px 0px -6% 0px" });
   const watch = (els) => els.forEach((el, i) => { el.style.setProperty("--d", `${Math.min(i % 6, 5) * 0.06}s`); revObs.observe(el); });
-  $$(".chap__txt > *:not(.load)").forEach((el) => el.classList.add("rv"));
+  $$(".chap__txt > *:not(.load):not(.split)").forEach((el) => el.classList.add("rv"));
   watch($$(".rv"));
+  // Títulos: palabras que suben desde una máscara; kickers que se decodifican; cifras que cuentan
+  const splitObs = new IntersectionObserver((entries) => entries.forEach((e) => {
+    if (!e.isIntersecting) return;
+    const el = e.target;
+    splitObs.unobserve(el);
+    if (el.classList.contains("split")) { el.classList.add("in"); return; }
+    if (el.classList.contains("kicker")) { scramble(el); return; }
+    if (el.dataset.count) {
+      const end = +el.dataset.count, t0 = performance.now();
+      const tick = (now) => { const p = Math.min((now - t0) / 1400, 1); el.textContent = Math.round(end * (1 - Math.pow(1 - p, 3))); if (p < 1) requestAnimationFrame(tick); };
+      if (!RM) requestAnimationFrame(tick);
+    }
+  }), { threshold: 0.3 });
+  $$(".split:not(#heroTitle), .kicker:not(.load), [data-count]").forEach((el) => splitObs.observe(el));
 
   /* ---------------- Palabra rotativa del hero ---------------- */
   const swap = $("#swap");
   const WORDS = ["decisiones", "ventas", "predicciones", "eficiencia", "crecimiento"];
   if (!RM) {
     (async () => {
-      await sleep(3200);
+      await sleep(INTRO_MS + 3200);
       let i = 0;
       for (;;) {
         const cur = WORDS[i], next = WORDS[(i + 1) % WORDS.length];
@@ -201,12 +292,11 @@
     .concat(Object.entries(CATS).map(([k, c]) => `<button type="button" role="tab" data-cat="${k}" aria-selected="false" style="--c:${c.color}"><b></b>${c.name} <i>${MODULES.filter((m) => m.cat === k).length}</i></button>`)).join("");
   modsEl.innerHTML = MODULES.map((m, i) => `
     <button type="button" class="mod" role="listitem" data-i="${i}" data-cat="${m.cat}" style="--c:${CATS[m.cat].color}">
-      <span class="mod__top"><span class="mod__n">${String(i + 1).padStart(2, "0")}</span>${m.isNew ? '<span class="mod__new">Nuevo</span>' : ""}</span>
+      <span class="mod__n">${String(i + 1).padStart(2, "0")}</span>
+      <span class="mod__name">${m.name}${m.isNew ? '<sup>Nuevo</sup>' : ""}</span>
+      <span class="mod__short">${m.short}<small>${m.tagline}</small></span>
       <span class="mod__cat"><b></b>${CATS[m.cat].name}</span>
-      <span class="mod__name"><small>SkyLab</small> ${m.name}</span>
-      <span class="mod__short">${m.short}</span>
-      <span class="mod__tag">${m.tagline}</span>
-      <span class="mod__go" aria-hidden="true">Ver detalle →</span>
+      <span class="mod__go" aria-hidden="true">→</span>
     </button>`).join("");
   watch($$(".mod", modsEl));
   $$(".mod", modsEl).forEach((card) => {
@@ -438,12 +528,61 @@
   $("#year").textContent = new Date().getFullYear();
 
   /* ---------------- Scroll ---------------- */
+  /* ---------------- Método fijo en pantalla ---------------- */
+  const metodo = $("#metodo"), stepEls = $$("#steps li"), stepN = $("#stepN"), stepBar = $("#stepBar");
+  let curStep = -1;
+  const updateSteps = () => {
+    const r = metodo.getBoundingClientRect(), p = Math.min(1, Math.max(0, -r.top / Math.max(1, r.height - innerHeight)));
+    stepBar.style.transform = `scaleX(${p})`;
+    const k = Math.min(stepEls.length - 1, Math.floor(p * stepEls.length));
+    if (k === curStep) return;
+    curStep = k;
+    stepEls.forEach((li, i) => { li.classList.toggle("is-on", i === k); li.classList.toggle("is-past", i < k); });
+    stepN._scrTok = (stepN._scrTok || 0) + 1; delete stepN.dataset.scrambling; stepN._scrHtml = undefined;
+    stepN.textContent = String(k + 1).padStart(2, "0"); scramble(stepN, 450);
+  };
+
+  /* ---------------- Bandas tipográficas que responden al scroll ---------------- */
+  const marqs = $$(".marq__track").map((el) => ({ el, dir: +el.dataset.speed || 1, x: 0 }));
+  let vScroll = 0, lastY = scrollY;
+  const marqLoop = () => {
+    const dy = scrollY - lastY; lastY = scrollY;
+    vScroll += (dy - vScroll) * 0.12;
+    marqs.forEach((m) => {
+      m.x -= (0.6 + Math.abs(vScroll) * 0.35) * m.dir;
+      const half = m.el.scrollWidth / 2;
+      if (m.x < -half) m.x += half; if (m.x > 0) m.x -= half;
+      m.el.style.transform = `translate3d(${m.x}px,0,0) skewX(${Math.max(-12, Math.min(12, -vScroll * 0.4))}deg)`;
+    });
+    requestAnimationFrame(marqLoop);
+  };
+  if (!RM) requestAnimationFrame(marqLoop);
+
+  /* ---------------- Cursor ---------------- */
+  const cursor = $("#cursor");
+  if (FINE && !RM) {
+    root.classList.add("has-cursor");
+    let cx = innerWidth / 2, cy = innerHeight / 2, tx = cx, ty = cy;
+    addEventListener("pointermove", (e) => { tx = e.clientX; ty = e.clientY; cursor.classList.add("is-on"); }, { passive: true });
+    document.addEventListener("pointerleave", () => cursor.classList.remove("is-on"));
+    const loop = () => { cx += (tx - cx) * 0.2; cy += (ty - cy) * 0.2; cursor.style.transform = `translate3d(${cx}px,${cy}px,0)`; requestAnimationFrame(loop); };
+    requestAnimationFrame(loop);
+    document.addEventListener("pointerover", (e) => cursor.classList.toggle("is-link", !!e.target.closest("a, button, input, textarea, select, summary, label")));
+  }
+
+  /* ---------------- Grano de película ---------------- */
+  try {
+    const c = document.createElement("canvas"); c.width = c.height = 160;
+    const g = c.getContext("2d"), img = g.createImageData(160, 160);
+    for (let i = 0; i < img.data.length; i += 4) { const v = (Math.random() * 255) | 0; img.data[i] = img.data[i + 1] = img.data[i + 2] = v; img.data[i + 3] = 255; }
+    g.putImageData(img, 0, 0);
+    $(".grain").style.backgroundImage = `url(${c.toDataURL()})`;
+  } catch (e) { /* opcional */ }
+
   const nav = $("#nav");
-  const onScroll = () => { nav.classList.toggle("is-scrolled", scrollY > 10); updateChapter(); };
+  const onScroll = () => { nav.classList.toggle("is-scrolled", scrollY > 10); updateChapter(); updateSteps(); };
   addEventListener("scroll", onScroll, { passive: true });
   let rt;
   addEventListener("resize", () => { clearTimeout(rt); rt = setTimeout(() => { drawForecast(); onScroll(); }, 120); });
   onScroll();
-  // La escena es un módulo y carga después: le reenviamos el capítulo actual.
-  addEventListener("skylab:scene-ready", () => { emit("scene", { name: curScene }); });
 })();

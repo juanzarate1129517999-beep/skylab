@@ -40,6 +40,15 @@ Una escena 3D fija (three.js) acompaña el scroll: una sola nube de partículas 
 | 09 · Nosotros | Carta del fundador y preguntas frecuentes |
 | 10 · Contacto | Formulario de demo |
 
+Experiencia:
+- **Intro**: miles de partículas llegan desde fuera de la pantalla y forman el logo de SKYLAB en 3D mientras un contador "carga" los datos.
+- **Transiciones amarradas al scroll**: las partículas viajan en remolino de una figura a la siguiente según cuánto bajes.
+- **Brillo (bloom)**, cámara que cambia por capítulo y efecto "warp" al hacer scroll rápido.
+- **Partículas que esquivan el cursor**, cursor propio y grano de película.
+- **Títulos que se revelan palabra por palabra** y textos que se "decodifican".
+- **Método fijo en pantalla**: al bajar, el descenso del gradiente avanza por la superficie de pérdida y cambia el paso.
+- Bandas tipográficas gigantes que reaccionan a la velocidad del scroll.
+
 Responsive, compatible con `prefers-reduced-motion` y con fondo de respaldo si el navegador no tiene WebGL.
 
 ### Logo

@@ -38,6 +38,18 @@
     <div class="stage__labels" id="labels"></div>
     <div class="stage__fade"></div>
   </div>
+  <div class="grain" aria-hidden="true"></div>
+  <div class="cursor" id="cursor" aria-hidden="true"><i></i></div>
+
+  <!-- Intro: las partículas forman el logo mientras "cargan" los datos -->
+  <div class="intro" id="intro" aria-hidden="true">
+    <div class="intro__row"><span>SKYLAB · Sistema de IA</span><span id="introStatus">Conectando fuentes</span></div>
+    <div class="intro__mid">
+      <p class="intro__word" id="introWord">SKYLAB</p>
+      <p class="intro__sub">Ingeniería de datos · Machine learning · IA generativa</p>
+    </div>
+    <div class="intro__row"><span class="intro__count" id="introCount">000</span><span class="intro__bar"><i id="introBar"></i></span><span>Clic para entrar</span></div>
+  </div>
 
   <header class="nav" id="nav">
     <a href="#inicio" class="brand" aria-label="SKYLAB, ir al inicio">
@@ -73,7 +85,7 @@
       <div class="wrap">
         <div class="chap__txt">
           <p class="kicker load" style="--i:0">Ingeniería de datos <span>·</span> Machine learning <span>·</span> IA generativa</p>
-          <h1 class="display load" style="--i:1">Convierte tus datos en <span class="grad" id="swap">decisiones</span>.</h1>
+          <h1 class="display split" id="heroTitle">Convierte tus datos en <em data-keep><span id="swap">decisiones</span></em></h1>
           <p class="lead load" style="--i:2">Lo que ves es una red neuronal: cada punto es una neurona y cada destello, un dato que la atraviesa. SKYLAB construye la ingeniería de datos de tu empresa, entrena modelos de machine learning sobre ella y conecta modelos de lenguaje como Claude a tus procesos. Para microempresas, PyMEs y grandes compañías.</p>
           <div class="ctas load" style="--i:3">
             <a href="#contacto" class="btn btn--solid">Agendar una demo</a>
@@ -83,12 +95,17 @@
       </div>
     </section>
 
+    <div class="marq" aria-hidden="true"><div class="marq__track" data-speed="1">
+      <span>Ingeniería de datos</span><i></i><span class="o">Machine learning</span><i></i><span>Redes neuronales</span><i></i><span class="o">Modelos de lenguaje</span><i></i>
+      <span>Ingeniería de datos</span><i></i><span class="o">Machine learning</span><i></i><span>Redes neuronales</span><i></i><span class="o">Modelos de lenguaje</span><i></i>
+    </div></div>
+
     <!-- 01 · LOS DATOS -->
     <section class="chap" id="datos" data-scene="scatter" data-label="Tus datos">
       <div class="wrap">
         <div class="chap__txt">
           <p class="kicker">01 <span>·</span> Tus datos</p>
-          <h2 class="h2"><span class="big grad">14</span> lugares distintos donde vive tu información</h2>
+          <h2 class="h2"><span class="big" data-count="14">14</span> lugares distintos donde vive tu información</h2>
           <p class="lead">Ventas en Excel, pedidos en Shopify, clientes en WhatsApp, facturas en PDF, inventario en el ERP. Cada nube de partículas es una fuente: <b>datos que ya tienes</b>, pero que <b>no se hablan entre sí</b>, se <b>duplican</b> o <span class="t-blue">nadie analiza</span>.</p>
           <ul class="chips" aria-label="Integraciones">
             <li>Excel</li><li>Google Sheets</li><li>Shopify</li><li>WooCommerce</li><li>WhatsApp</li><li>SAP</li><li>Salesforce</li><li>HubSpot</li><li>PostgreSQL</li><li>SQL Server</li><li>BigQuery</li><li>Snowflake</li><li>Power BI</li><li>APIs REST</li>
@@ -119,7 +136,7 @@
       <div class="wrap">
         <div class="chap__txt">
           <p class="kicker">03 <span>·</span> Soluciones de IA</p>
-          <h2 class="h2"><span class="big grad" id="modCount">19</span> soluciones de IA.<br />Una sola plataforma.</h2>
+          <h2 class="h2"><span class="big" id="modCount" data-count="19">19</span> soluciones de IA.<br />Una sola plataforma.</h2>
           <p class="lead">Así se ve nuestro catálogo en un espacio de embeddings: cada nube agrupa soluciones parecidas. Todas comparten tus datos, tu cuenta y tu equipo de soporte: activa una hoy y suma las demás cuando las necesites.</p>
         </div>
         <div class="filters rv" role="tablist" aria-label="Filtrar por categoría" id="filters"></div>
@@ -277,20 +294,26 @@
       </div>
     </section>
 
-    <!-- 07 · MÉTODO -->
-    <section class="chap chap--right chap--tall" id="metodo" data-scene="loss" data-label="Método">
-      <div class="wrap">
-        <div class="chap__txt">
-          <p class="kicker">07 <span>·</span> Método</p>
-          <h2 class="h2">De la primera reunión a resultados medibles, <span class="grad">en cinco pasos</span>.</h2>
-          <p class="lead">Como un modelo que desciende por su superficie de error, cada paso nos acerca al mínimo: menos costo, menos errores, mejores decisiones.</p>
-          <ol class="steps">
-            <li><span class="steps__n">01</span><div><p class="steps__t">Semana 1</p><h3>Diagnóstico</h3><p>Revisamos tus datos y procesos, y elegimos los casos de uso con mayor retorno.</p></div></li>
-            <li><span class="steps__n">02</span><div><p class="steps__t">Semanas 1 – 2</p><h3>Integración</h3><p>Conectamos tus fuentes y construimos flujos de datos confiables y monitoreados.</p></div></li>
-            <li><span class="steps__n">03</span><div><p class="steps__t">Semanas 2 – 3</p><h3>Modelado</h3><p>Entrenamos y validamos modelos con tus datos y métricas de éxito acordadas contigo.</p></div></li>
-            <li><span class="steps__n">04</span><div><p class="steps__t">Semana 4</p><h3>Despliegue</h3><p>La solución llega a tu equipo, integrada a sus herramientas y con capacitación.</p></div></li>
-            <li><span class="steps__n">05</span><div><p class="steps__t">Continuo</p><h3>Mejora continua</h3><p>Medimos el impacto cada mes, re-entrenamos y extendemos a nuevas áreas.</p></div></li>
-          </ol>
+    <!-- 07 · MÉTODO (fijo en pantalla: el descenso avanza con el scroll) -->
+    <section class="pinsec" id="metodo" data-scene="loss" data-label="Método">
+      <div class="pin">
+        <div class="wrap pin__in">
+          <div class="chap__txt">
+            <p class="kicker">07 <span>·</span> Método</p>
+            <h2 class="h2">De la primera reunión a resultados medibles, <span class="grad">en cinco pasos</span>.</h2>
+            <p class="lead">Como un modelo que desciende por su superficie de error: cada paso nos acerca al mínimo. Sigue bajando y míralo avanzar.</p>
+            <div class="stepper" id="stepper">
+              <p class="stepper__n" id="stepN">01</p>
+              <ol class="steps" id="steps">
+                <li><span class="steps__n">01</span><div><p class="steps__t">Semana 1</p><h3>Diagnóstico</h3><p>Revisamos tus datos y procesos, y elegimos los casos de uso con mayor retorno.</p></div></li>
+                <li><span class="steps__n">02</span><div><p class="steps__t">Semanas 1 – 2</p><h3>Integración</h3><p>Conectamos tus fuentes y construimos flujos de datos confiables y monitoreados.</p></div></li>
+                <li><span class="steps__n">03</span><div><p class="steps__t">Semanas 2 – 3</p><h3>Modelado</h3><p>Entrenamos y validamos modelos con tus datos y métricas de éxito acordadas contigo.</p></div></li>
+                <li><span class="steps__n">04</span><div><p class="steps__t">Semana 4</p><h3>Despliegue</h3><p>La solución llega a tu equipo, integrada a sus herramientas y con capacitación.</p></div></li>
+                <li><span class="steps__n">05</span><div><p class="steps__t">Continuo</p><h3>Mejora continua</h3><p>Medimos el impacto cada mes, re-entrenamos y extendemos a nuevas áreas.</p></div></li>
+              </ol>
+              <div class="stepper__bar"><i id="stepBar"></i></div>
+            </div>
+          </div>
         </div>
       </div>
     </section>
@@ -421,6 +444,11 @@
       </div>
     </section>
 
+    <div class="marq marq--rev" aria-hidden="true"><div class="marq__track" data-speed="-1">
+      <span>Datos</span><i></i><span class="o">Modelos</span><i></i><span>Decisiones</span><i></i><span class="o">Resultados</span><i></i>
+      <span>Datos</span><i></i><span class="o">Modelos</span><i></i><span>Decisiones</span><i></i><span class="o">Resultados</span><i></i>
+    </div></div>
+
     <!-- 10 · CONTACTO -->
     <section class="chap chap--center chap--tall" id="contacto" data-scene="final" data-label="Contacto">
       <div class="wrap">
@@ -488,6 +516,7 @@
     </aside>
   </div>
 
+  <script type="importmap">{ "imports": { "three": "./assets/vendor/three.module.min.js", "three/addons/": "./assets/vendor/addons/" } }</script>
   <script src="assets/js/main.js"></script>
   <script type="module" src="assets/js/scene.js"></script>
 </body>
