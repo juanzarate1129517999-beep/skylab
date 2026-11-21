@@ -170,7 +170,7 @@ b, strong { color: var(--ink); font-weight: 600; }
 .big { display: block; font-size: 1.35em; line-height: 1; margin-bottom: 0.08em; }
 .grad, .grad-warm { color: var(--dim); }
 .fire { background: var(--fire); -webkit-background-clip: text; background-clip: text; color: transparent; padding-right: 0.03em; }
-.display em.fire { color: transparent; }
+.display em.fire { color: transparent; text-shadow: none; }
 #swap { display: inline-block; min-width: 0.5ch; padding-bottom: 0.08em; }
 .lead { margin: 0 0 32px; font-size: clamp(17px, 1.35vw, 20px); line-height: 1.6; color: var(--ink-2); max-width: 36em; text-wrap: pretty; }
 .mute { color: var(--mute); }
@@ -348,7 +348,7 @@ input[type="range"]::-moz-range-thumb { width: 18px; height: 18px; border: 0; bo
 .roi__bars i { display: block; height: 8px; border-radius: 8px; background: #3a3a3a; transform-origin: left; transition: transform 0.6s var(--ease); }
 .roi__bars div:last-child i { background: var(--grad); }
 .roi__bars b { font: 500 13px var(--f-mono); color: var(--ink-2); }
-.roi__facts { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin: 24px 0 0; }
+.roi__facts { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin: 24px 0 0; }
 .roi__facts div { padding: 12px; border-radius: 12px; border: 1px solid var(--line); }
 .roi__facts dt { font: 500 10px var(--f-mono); color: var(--mute); text-transform: uppercase; letter-spacing: 0.1em; }
 .roi__facts dd { margin: 6px 0 0; font: 500 20px var(--f-display); color: var(--ink); }

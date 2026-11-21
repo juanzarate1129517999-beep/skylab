@@ -62,7 +62,7 @@
       <a href="#demo"><i>05</i>Demo</a>
       <a href="#industrias"><i>06</i>Industrias</a>
       <a href="#metodo"><i>07</i>Método</a>
-      <a href="#precios"><i>08</i>Precios</a>
+      <a href="#planes"><i>08</i>Planes</a>
       <a href="#nosotros"><i>09</i>Nosotros</a>
       <a href="#contacto"><i>10</i>Contacto</a>
     </nav>
@@ -308,10 +308,10 @@
     </section>
 
     <!-- 08 · RETORNO Y PRECIOS -->
-    <section class="chap chap--tall" id="precios" data-scene="embedDim" data-label="Precios">
+    <section class="chap chap--tall" id="planes" data-scene="embedDim" data-label="Planes">
       <div class="wrap">
         <div class="chap__txt chap__txt--wide">
-          <p class="kicker">08 <span>·</span> Retorno y precios</p>
+          <p class="kicker">08 <span>·</span> Retorno y planes</p>
           <h2 class="h2">¿Cuánto te cuestan <span class="grad">las tareas manuales</span>?</h2>
         </div>
 
@@ -335,53 +335,45 @@
             </div>
             <dl class="roi__facts">
               <div><dt>Horas liberadas al año</dt><dd id="roiHours">0</dd></div>
-              <div><dt>Retorno sobre el plan</dt><dd id="roiX">0x</dd></div>
-              <div><dt>Plan sugerido</dt><dd id="roiPlan">Esencial</dd></div>
+              <div><dt>Plan sugerido</dt><dd id="roiPlan">Microempresa</dd></div>
             </dl>
             <p class="note">Estimación orientativa con 48 semanas laborales al año. El resultado real depende de cada proceso.</p>
           </div>
         </div>
 
         <div class="plans__head rv">
-          <h3 class="h3">Planes claros. <span class="mute">Sin letra pequeña.</span></h3>
-          <div class="billing" role="group" aria-label="Periodo de facturación">
-            <button type="button" class="is-on" data-bill="m">Mensual</button>
-            <button type="button" data-bill="y">Anual · 2 meses gratis</button>
-          </div>
+          <h3 class="h3">Un plan para cada tamaño de empresa. <span class="mute">Cotiza según lo que necesitas.</span></h3>
         </div>
         <div class="plans">
           <article class="plan glass rv">
-            <p class="plan__name">Esencial</p>
-            <p class="plan__for">Microempresas y emprendedores</p>
-            <p class="plan__price"><span>USD</span><b data-m="49" data-y="39">49</b><small>/mes</small></p>
-            <a href="#contacto" class="btn btn--ghost btn--block">Empezar prueba de 14 días</a>
+            <p class="plan__name">Microempresa</p>
+            <p class="plan__for">1 a 10 personas · emprendedores y negocios locales</p>
+            <a href="#contacto" class="btn btn--ghost btn--block" data-size="micro">Cotizar <span aria-hidden="true">→</span></a>
             <ul>
               <li>Agents en WhatsApp y web</li>
-              <li>1.000 conversaciones al mes</li>
               <li>Tablero de ventas con Insight</li>
-              <li>DocAI: 200 documentos al mes</li>
+              <li>Lectura de facturas con DocAI</li>
+              <li>Configuración guiada, sin equipo técnico</li>
               <li>Soporte por chat en español</li>
             </ul>
           </article>
           <article class="plan plan--hot glass rv">
-            <p class="plan__name">Crecimiento <span class="pill">Recomendado</span></p>
-            <p class="plan__for">PyMEs</p>
-            <p class="plan__price"><span>USD</span><b data-m="390" data-y="312">390</b><small>/mes</small></p>
-            <a href="#contacto" class="btn btn--solid btn--block">Empezar prueba de 14 días</a>
+            <p class="plan__name">PyME <span class="pill">Más elegido</span></p>
+            <p class="plan__for">11 a 250 personas · empresas en crecimiento</p>
+            <a href="#contacto" class="btn btn--solid btn--block" data-size="mediana">Cotizar <span aria-hidden="true">→</span></a>
             <ul>
-              <li>Todo lo del plan Esencial</li>
-              <li>Nexus: 20 conectores de datos</li>
-              <li>Forecast, Pulse y Leads incluidos</li>
+              <li>Todo lo de Microempresa</li>
+              <li>Nexus: tus fuentes de datos en una sola base</li>
+              <li>Forecast, Pulse y Leads</li>
               <li>Copilot interno con tus documentos</li>
-              <li>Flow: 10.000 ejecuciones al mes</li>
+              <li>Automatizaciones con Flow</li>
               <li>Gerente de cuenta dedicado</li>
             </ul>
           </article>
           <article class="plan glass rv">
-            <p class="plan__name">Corporativo</p>
-            <p class="plan__for">Grandes empresas</p>
-            <p class="plan__price plan__price--txt"><b>A medida</b></p>
-            <a href="#contacto" class="btn btn--ghost btn--block">Hablar con ventas</a>
+            <p class="plan__name">Gran empresa</p>
+            <p class="plan__for">Más de 250 personas · corporativos</p>
+            <a href="#contacto" class="btn btn--ghost btn--block" data-size="grande">Cotizar <span aria-hidden="true">→</span></a>
             <ul>
               <li>Las 19 soluciones, incluidas Vision y Voice</li>
               <li>Despliegue en tu nube o servidores</li>
@@ -392,7 +384,7 @@
             </ul>
           </article>
         </div>
-        <p class="note rv">Precios en dólares estadounidenses, sin impuestos. Cancela cuando quieras.</p>
+        <p class="note rv">Cada propuesta se arma según el tamaño de tu empresa y las soluciones que actives. Diagnóstico gratuito y respuesta en menos de 48 horas.</p>
       </div>
     </section>
 
@@ -424,11 +416,11 @@
       <div class="wrap faq">
         <h3 class="h3 rv">Lo que nos preguntan antes de empezar.</h3>
         <div class="faq__list rv">
-          <details><summary>¿Necesito un equipo técnico para usar SKYLAB?</summary><p>No. Los planes Esencial y Crecimiento se configuran con asistentes guiados. Para proyectos más grandes, nuestro equipo hace la implementación contigo.</p></details>
+          <details><summary>¿Necesito un equipo técnico para usar SKYLAB?</summary><p>No. Para microempresas y PyMEs la configuración es guiada. Para proyectos más grandes, nuestro equipo hace la implementación contigo.</p></details>
           <details><summary>¿Cuánto tarda la implementación?</summary><p>Un asistente de WhatsApp puede quedar listo en un día. Una plataforma de datos con pronósticos para una PyME suele tomar entre dos y cuatro semanas. Los proyectos corporativos se planean por fases.</p></details>
           <details><summary>¿Qué pasa con la privacidad de mis datos?</summary><p>Se cifran en reposo y en tránsito, se aíslan por cliente y nunca se usan para entrenar modelos de terceros. Puedes exportarlos o eliminarlos cuando quieras.</p></details>
           <details><summary>¿Puedo empezar con una sola solución?</summary><p>Sí. Activa la que necesitas y suma otras después. Todas comparten la misma base de datos, así que cada solución nueva aprovecha lo que ya está conectado.</p></details>
-          <details><summary>¿Hay prueba gratuita?</summary><p>Sí: 14 días en los planes Esencial y Crecimiento, sin tarjeta de crédito. En el plan Corporativo hacemos un piloto con tus propios datos.</p></details>
+          <details><summary>¿Cuánto cuesta?</summary><p>Depende del tamaño de tu empresa y de las soluciones que actives. Agenda una demo: hacemos un diagnóstico gratuito de tus datos y te enviamos una cotización en menos de 48 horas.</p></details>
         </div>
       </div>
     </section>

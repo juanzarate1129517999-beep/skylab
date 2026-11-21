@@ -17,9 +17,9 @@
 | **Operaciones** | Flow (automatización) · Route (logística) · Sentinel (mantenimiento predictivo) · Talent (RR. HH.) |
 
 ### Planes
-- **Esencial** — microempresas (desde USD 49/mes)
-- **Crecimiento** — PyMEs (desde USD 390/mes)
-- **Corporativo** — grandes empresas (a medida)
+- **Microempresa** (1 a 10 personas) — cotización a medida
+- **PyME** (11 a 250 personas) — cotización a medida
+- **Gran empresa** (más de 250 personas) — cotización a medida
 
 ## Sitio web
 
@@ -36,7 +36,7 @@ Una escena 3D fija (three.js) acompaña el scroll: una sola nube de partículas 
 | 05 · Demo | Agente de WhatsApp, pronóstico y pipeline funcionando en el navegador |
 | 06 · Industrias | Métricas en barras 3D |
 | 07 · Método | Superficie de pérdida y descenso del gradiente con los 5 pasos |
-| 08 · Precios | Calculadora de ahorro y planes |
+| 08 · Planes | Calculadora de ahorro y planes por tamaño de empresa, con botón "Cotizar" |
 | 09 · Nosotros | Carta del fundador y preguntas frecuentes |
 | 10 · Contacto | Formulario de demo |
 

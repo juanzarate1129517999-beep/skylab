@@ -488,8 +488,8 @@
     const people = +rPeople.value, hours = +rHours.value, cost = +rCost.value, auto = +rAuto.value / 100;
     $("#oPeople").textContent = people; $("#oHours").textContent = hours; $("#oCost").textContent = `$${cost}`; $("#oAuto").textContent = `${rAuto.value}%`;
     const now = people * hours * 48, freed = now * auto, save = freed * cost;
-    const plan = people <= 10 ? ["Esencial", 49 * 12] : people <= 60 ? ["Crecimiento", 390 * 12] : ["Corporativo", 2500 * 12];
-    $("#roiHours").textContent = fmt(Math.round(freed)); $("#roiX").textContent = `${fmt(save / plan[1], 1)}x`; $("#roiPlan").textContent = plan[0];
+    const plan = people <= 10 ? "Microempresa" : people <= 250 ? "PyME" : "Gran empresa";
+    $("#roiHours").textContent = fmt(Math.round(freed)); $("#roiPlan").textContent = plan;
     $("#roiNow").textContent = `${fmt(Math.round(now))} h`; $("#roiNew").textContent = `${fmt(Math.round(now - freed))} h`;
     $("#barNow").style.transform = "scaleX(1)"; $("#barNew").style.transform = `scaleX(${1 - auto})`;
     const from = shownSave, start = performance.now(), my = ++roiAnim;
@@ -499,10 +499,10 @@
   [rPeople, rHours, rCost, rAuto].forEach((r) => r.addEventListener("input", updateROI));
   updateROI();
 
-  $$(".billing button").forEach((b) => b.addEventListener("click", () => {
-    const y = b.dataset.bill === "y";
-    $$(".billing button").forEach((x) => x.classList.toggle("is-on", x === b));
-    $$(".plan__price b[data-m]").forEach((p) => { p.classList.add("out"); setTimeout(() => { p.textContent = y ? p.dataset.y : p.dataset.m; p.classList.remove("out"); }, 200); });
+  // "Cotizar" lleva al formulario con el tamaño de empresa ya elegido
+  $$("[data-size]").forEach((b) => b.addEventListener("click", () => {
+    const r = $(`input[name=tamano][value=${b.dataset.size}]`);
+    if (r) { r.checked = true; r.closest(".field")?.classList.remove("is-bad"); }
   }));
 
   /* ---------------- Formulario ---------------- */
