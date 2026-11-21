@@ -23,7 +23,7 @@
 
 ## Sitio web
 
-Sitio estático (HTML + CSS + JavaScript, sin build) con fondo negro, paleta monocromática y el azul del logo.
+Sitio estático (HTML + CSS + JavaScript, sin build) con fondo negro y la misma identidad de Skylab Phoenix: logo del fénix, tipografía Geist y paleta ámbar → naranja → rosa → violeta.
 Una escena 3D fija (three.js) acompaña el scroll: una sola nube de partículas cambia de forma en cada capítulo.
 
 | Capítulo | Figura 3D |
@@ -53,7 +53,7 @@ Responsive, compatible con `prefers-reduced-motion` y con fondo de respaldo si e
 
 ### Logo
 
-PNG listos para usar en `assets/img/png/`: `skylab-logo-color.png` (fondo oscuro), `skylab-logo-dark.png` (fondo claro),
+Logo del fénix (el mismo de Skylab Phoenix) con la paleta ámbar → naranja → rosa → violeta. PNG listos para usar en `assets/img/png/`: `skylab-logo-color.png` (fondo oscuro), `skylab-logo-dark.png` (fondo claro),
 `skylab-logo-white.png`, `skylab-mark.png`, `skylab-mark-dark.png` y `skylab-icon.png` (1024 px).
 
 ### Estructura

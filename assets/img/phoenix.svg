@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Skylab Phoenix">
+  <defs>
+    <linearGradient id="phx" x1="0" y1="1" x2="1" y2="0">
+      <stop offset="0" stop-color="#fbbf24"/><stop offset=".4" stop-color="#f97316"/>
+      <stop offset=".72" stop-color="#f43f5e"/><stop offset="1" stop-color="#8b5cf6"/>
+    </linearGradient>
+  </defs>
+  <path fill="url(#phx)" d="M32 29C24 21 14 19 3 9c4 13 12 21 25 25zM30 34c-8-2-16-2-22-8 5 8 12 11 21 12zM32 29c8-8 18-10 29-20-4 13-12 21-25 25zM34 34c8-2 16-2 22-8-5 8-12 11-21 12z"/>
+  <path fill="url(#phx)" d="M32 12c3 6 6.5 10 6.5 18 0 5.5-2.8 10-6.5 10s-6.5-4.5-6.5-10c0-8 3.5-12 6.5-18z"/>
+  <path fill="url(#phx)" opacity=".85" d="M32 40c-2 6-6 10-8 18 5-4 7-8 8-12 1 4 3 8 8 12-2-8-6-12-8-18z"/>
+  <circle cx="32" cy="22" r="1.6" fill="#070a14"/>
+</svg>

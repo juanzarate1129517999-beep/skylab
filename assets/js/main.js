@@ -97,11 +97,11 @@
      El color de cada familia es el mismo de su nube en el espacio de embeddings 3D.
   ---------------------------------------------------------------- */
   const CATS = {
-    datos: { name: "Datos y BI", color: "#00A6FF" },
-    gen: { name: "IA Generativa", color: "#FFFFFF" },
-    pred: { name: "Analítica Predictiva", color: "#5C78FF" },
-    vv: { name: "Visión y Voz", color: "#9DB4FF" },
-    ops: { name: "Operaciones", color: "#A9A9A5" },
+    datos: { name: "Datos y BI", color: "#FBBF24" },
+    gen: { name: "IA Generativa", color: "#F97316" },
+    pred: { name: "Analítica Predictiva", color: "#F43F5E" },
+    vv: { name: "Visión y Voz", color: "#8B5CF6" },
+    ops: { name: "Operaciones", color: "#CBD5E1" },
   };
 
   const MODULES = [
@@ -422,24 +422,24 @@
     const pad = { l: 42, r: 10, t: 16, b: 28 }, all = [...history, ...values];
     const max = Math.max(...all.map((v, i) => (i >= history.length ? v * 1.2 : v))) * 1.06;
     const X = (i) => pad.l + (i / (all.length - 1)) * (w - pad.l - pad.r), Y = (v) => h - pad.b - (v / max) * (h - pad.t - pad.b);
-    fctx.font = '11px "JetBrains Mono", monospace'; fctx.strokeStyle = "rgba(255,255,255,.07)"; fctx.fillStyle = "#6B6B68"; fctx.lineWidth = 1;
+    fctx.font = '11px "Geist Mono", monospace'; fctx.strokeStyle = "rgba(255,255,255,.07)"; fctx.fillStyle = "#64748B"; fctx.lineWidth = 1;
     for (let g = 0; g <= 4; g++) { const v = (max / 4) * g; fctx.beginPath(); fctx.moveTo(pad.l, Y(v)); fctx.lineTo(w - pad.r, Y(v)); fctx.stroke(); fctx.textAlign = "right"; fctx.fillText(Math.round(v), pad.l - 8, Y(v) + 4); }
     fctx.textAlign = "center";
     const step = w < 520 ? 3 : 1;
     all.forEach((_, i) => { if (i % step === 0) fctx.fillText(months[i], X(i), h - 8); });
     const xNow = X(history.length - 1);
     fctx.setLineDash([2, 4]); fctx.strokeStyle = "rgba(255,255,255,.25)"; fctx.beginPath(); fctx.moveTo(xNow, pad.t); fctx.lineTo(xNow, h - pad.b); fctx.stroke(); fctx.setLineDash([]);
-    fctx.fillStyle = "#8A8A86"; fctx.fillText("HOY", xNow, pad.t + 2);
+    fctx.fillStyle = "#94A3B8"; fctx.fillText("HOY", xNow, pad.t + 2);
     const idx = values.map((_, k) => history.length + k);
     fctx.beginPath(); fctx.moveTo(xNow, Y(history.at(-1)));
     idx.forEach((i, k) => fctx.lineTo(X(i), Y(values[k] * (1 + 0.04 * (k + 1)))));
     for (let k = values.length - 1; k >= 0; k--) fctx.lineTo(X(idx[k]), Y(values[k] * (1 - 0.04 * (k + 1))));
-    fctx.closePath(); fctx.fillStyle = "rgba(43,75,255,.22)"; fctx.fill();
+    fctx.closePath(); fctx.fillStyle = "rgba(242,96,15,.2)"; fctx.fill();
     fctx.beginPath(); history.forEach((v, i) => (i ? fctx.lineTo(X(i), Y(v)) : fctx.moveTo(X(i), Y(v))));
-    fctx.strokeStyle = "#C8C8C4"; fctx.lineWidth = 2; fctx.lineJoin = "round"; fctx.stroke();
+    fctx.strokeStyle = "#CBD5E1"; fctx.lineWidth = 2; fctx.lineJoin = "round"; fctx.stroke();
     fctx.beginPath(); fctx.moveTo(xNow, Y(history.at(-1))); idx.forEach((i, k) => fctx.lineTo(X(i), Y(values[k])));
-    fctx.strokeStyle = "#00A6FF"; fctx.lineWidth = 2; fctx.setLineDash([6, 5]); fctx.stroke(); fctx.setLineDash([]);
-    idx.forEach((i, k) => { fctx.fillStyle = "#00A6FF"; fctx.beginPath(); fctx.arc(X(i), Y(values[k]), 3.5, 0, 7); fctx.fill(); });
+    fctx.strokeStyle = "#F97316"; fctx.lineWidth = 2; fctx.setLineDash([6, 5]); fctx.stroke(); fctx.setLineDash([]);
+    idx.forEach((i, k) => { fctx.fillStyle = "#F97316"; fctx.beginPath(); fctx.arc(X(i), Y(values[k]), 3.5, 0, 7); fctx.fill(); });
   }
   const updateForecast = () => {
     $("#oMkt").textContent = `+${rMkt.value}%`; $("#oPrice").textContent = `${rPrice.value > 0 ? "+" : ""}${rPrice.value}%`; $("#oSeason").textContent = ["Baja", "Media", "Alta"][+rSeason.value];

@@ -30,7 +30,7 @@ const STATES = {
   heroFar:      { shape: "network",   pos: [4.2, 0, -4],    scale: 0.8,  tilt: [0.15, -0.5, 0],  spin: 0.07, cam: [0, 0, 12], op: 0.42 },
   final:        { shape: "network",   pos: [0, 0.35, -1],   scale: 0.8,  tilt: [0.15, -0.5, 0],  spin: 0.08, cam: [0, 0, 12], op: 0.85 },
 };
-const LOGO_STATE = { pos: [0, 1.1, 0], scale: 1.15, tilt: [0, 0, 0], cam: [0, 0, 12] };
+const LOGO_STATE = { pos: [0, 0.95, 0], scale: 1.1, tilt: [0, 0, 0], cam: [0, 0, 12] };
 
 const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
 const smooth = (x) => { x = clamp(x, 0, 1); return x * x * (3 - 2 * x); };
@@ -67,11 +67,12 @@ function init() {
   // Con bloom se renderiza en espacio lineal y OutputPass convierte a sRGB.
   const toLin = (c) => (c <= 0.04045 ? c / 12.92 : Math.pow((c + 0.055) / 1.055, 2.4));
   const hex = (h) => [1, 3, 5].map((k) => { const c = parseInt(h.slice(k, k + 2), 16) / 255; return BLOOM ? toLin(c) : c; });
+  // Paleta de Skylab Phoenix: ámbar → naranja → rosa → violeta sobre grises pizarra
   const PAL = {
-    white: hex("#FFFFFF"), light: hex("#C8C8C4"), gray: hex("#8A8A86"), dark: hex("#3A3A3A"),
-    blue: hex("#2B4BFF"), sky: hex("#00A6FF"), mid: hex("#5C78FF"), pale: hex("#9DB4FF"),
+    white: hex("#F1F5F9"), light: hex("#CBD5E1"), gray: hex("#94A3B8"), dark: hex("#334155"),
+    blue: hex("#F43F5E"), sky: hex("#F97316"), mid: hex("#8B5CF6"), pale: hex("#FBBF24"),
   };
-  const CAT_COL = [PAL.sky, PAL.white, PAL.mid, PAL.pale, PAL.gray];
+  const CAT_COL = [PAL.pale, PAL.sky, PAL.blue, PAL.mid, PAL.light];
 
   renderer.setClearColor(0x000000, 1);
   renderer.setPixelRatio(Math.min(devicePixelRatio || 1, BLOOM ? 1.5 : 1.75));
@@ -149,22 +150,33 @@ function init() {
   const lerp3 = (a, b, f, out, o) => { out[o] = a[0] + (b[0] - a[0]) * f; out[o + 1] = a[1] + (b[1] - a[1]) * f; out[o + 2] = a[2] + (b[2] - a[2]) * f; };
   const SH = {};
 
-  /* 0 · Logo de SKYLAB: medio sol + tres franjas */
+  /* 0 · Logo: el fénix de Skylab Phoenix, muestreado desde su SVG */
   SH.logo = mkShape(false);
   {
-    const REG = [{ a: (Math.PI * 256) / 2 }, { x: 4.4, y: 22.5, w: 31.2 }, { x: 6.8, y: 28, w: 26.4 }, { x: 13.2, y: 33.5, w: 13.6 }];
-    REG.slice(1).forEach((r) => { r.a = r.w * 3; });
-    const total = REG.reduce((s, r) => s + r.a, 0), S = 2.15 / 16;
+    const S = 256, cv = document.createElement("canvas"); cv.width = cv.height = S;
+    const g = cv.getContext("2d");
+    g.scale(S / 64, S / 64); g.fillStyle = "#fff";
+    [
+      "M32 29C24 21 14 19 3 9c4 13 12 21 25 25zM30 34c-8-2-16-2-22-8 5 8 12 11 21 12zM32 29c8-8 18-10 29-20-4 13-12 21-25 25zM34 34c8-2 16-2 22-8-5 8-12 11-21 12z",
+      "M32 12c3 6 6.5 10 6.5 18 0 5.5-2.8 10-6.5 10s-6.5-4.5-6.5-10c0-8 3.5-12 6.5-18z",
+      "M32 40c-2 6-6 10-8 18 5-4 7-8 8-12 1 4 3 8 8 12-2-8-6-12-8-18z",
+    ].forEach((d) => g.fill(new Path2D(d)));
+    g.globalCompositeOperation = "destination-out";
+    g.beginPath(); g.arc(32, 22, 1.9, 0, Math.PI * 2); g.fill();
+    const data = g.getImageData(0, 0, S, S).data, pix = [];
+    for (let y = 0; y < S; y++) for (let x = 0; x < S; x++) if (data[(y * S + x) * 4 + 3] > 128) pix.push(x, y);
+    const M = pix.length / 2, SC = 0.078;
+    const STOPS = [[0, PAL.pale], [0.4, PAL.sky], [0.72, PAL.blue], [1, PAL.mid]];
+    const grad = (t) => {
+      let k = 0; while (k < STOPS.length - 2 && t > STOPS[k + 1][0]) k++;
+      const [o0, c0] = STOPS[k], [o1, c1] = STOPS[k + 1], f = clamp((t - o0) / (o1 - o0), 0, 1);
+      return [0, 1, 2].map((c) => mix(c0[c], c1[c], f));
+    };
     for (let i = 0; i < N; i++) {
-      let pick = R[0][i] * total, k = 0;
-      while (k < 3 && pick > REG[k].a) { pick -= REG[k].a; k++; }
-      let x, y;
-      if (k === 0) { const r = 16 * Math.sqrt(R[1][i]), a = Math.PI * R[2][i]; x = 20 + r * Math.cos(a); y = 20 - r * Math.sin(a); }
-      else { x = REG[k].x + R[1][i] * REG[k].w; y = REG[k].y + R[2][i] * 3; }
-      SH.logo.T.set([(x - 20) * S, -(y - 20.25) * S, (R[3][i] - 0.5) * 0.3], i * 3);
-      if (k === 0) { const t = clamp(((x - 4) / 32 + (y - 4) / 16) / 2, 0, 1); SH.logo.C.set([0, 1, 2].map((c) => mix(PAL.blue[c], PAL.sky[c], t)), i * 3); }
-      else SH.logo.C.set(PAL.white, i * 3);
-      SH.logo.A[i] = k === 0 ? 0.95 : [1, 0.8, 0.6][k - 1];
+      const q = Math.floor(R[0][i] * M) * 2, u = ((pix[q] + R[1][i]) / S) * 64, v = ((pix[q + 1] + R[2][i]) / S) * 64;
+      SH.logo.T.set([(u - 32) * SC, -(v - 33.5) * SC, (R[3][i] - 0.5) * 0.35], i * 3);
+      SH.logo.C.set(grad(clamp((u / 64 + (64 - v) / 64) / 2, 0, 1)), i * 3);
+      SH.logo.A[i] = 0.95;
     }
   }
 
@@ -194,7 +206,7 @@ function init() {
     };
     SH.network.lines = new THREE.LineSegments(
       new THREE.BufferGeometry().setFromPoints(EDGES.flatMap(([a, b]) => [new THREE.Vector3(...NODES[a].p), new THREE.Vector3(...NODES[b].p)])),
-      lineMat(0x9db4ff),
+      lineMat(0xfbbf24),
     );
     SH.network.lineOp = 0.08;
   }
@@ -317,7 +329,7 @@ function init() {
     SH.attention.labels = [...TOKENS.map((w, k) => ({ text: w, p: [TX(k), BOT - 0.35, 0], cls: "lbl--tok" })), { text: "Capa de atención · transformer", p: [0, TOP + DIMS * DY + 0.55, 0], cls: "lbl--box" }];
     const pts = [], o = new Float32Array(3);
     ARCS.forEach((a) => { for (let s = 0; s < 24; s++) { arcPts(a, s / 24, o, 0); pts.push(new THREE.Vector3(...o)); arcPts(a, (s + 1) / 24, o, 0); pts.push(new THREE.Vector3(...o)); } });
-    SH.attention.lines = new THREE.LineSegments(new THREE.BufferGeometry().setFromPoints(pts), lineMat(0x5c78ff));
+    SH.attention.lines = new THREE.LineSegments(new THREE.BufferGeometry().setFromPoints(pts), lineMat(0xf97316));
     SH.attention.lineOp = 0.14;
   }
 
